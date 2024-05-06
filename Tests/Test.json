@@ -168,39 +168,5 @@
       "type" : "GOVERNMENT",
       "postalAddress" : null
     }
-  },
-  "17" : {
-    "name" : "null",
-    "coordinates" : {
-      "x" : 0,
-      "y" : 0
-    },
-    "salary" : null,
-    "position" : "LABORER",
-    "status" : null,
-    "organization" : {
-      "fullName" : "KGB",
-      "employeesCount" : 1,
-      "type" : "GOVERNMENT",
-      "postalAddress" : null
-    }
-  },
-  "20" : {
-    "name" : "Uta",
-    "coordinates" : {
-      "x" : 7,
-      "y" : 5
-    },
-    "salary" : 99999999,
-    "position" : "DIRECTOR",
-    "status" : "HIRED",
-    "organization" : {
-      "fullName" : "Feniks_Ink",
-      "employeesCount" : 7,
-      "type" : "PRIVATE_LIMITED_COMPANY",
-      "postalAddress" : {
-        "street" : "Huevo_kukueva"
-      }
-    }
   }
 }
