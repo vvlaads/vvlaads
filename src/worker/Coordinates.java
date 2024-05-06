@@ -80,6 +80,7 @@ public class Coordinates {
         if (y != null && y > -37) {
             this.y = y;
         } else {
+            System.out.println("Координата Y не удовлетворяет условиям. Выставлено значение по умолчанию");
             this.y = 0;
         }
     }

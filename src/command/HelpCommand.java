@@ -7,6 +7,29 @@ import manager.CommandManager;
  */
 public class HelpCommand implements Command {
     /**
+     * Менеджер для работы с командами.
+     */
+    private CommandManager commandManager;
+
+    /**
+     * Возвращает менеджер для работы с командами.
+     *
+     * @return менеджер для работы с командами
+     */
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с командами.
+     *
+     * @param commandManager менеджер для работы с командами
+     */
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
+    /**
      * Возвращает
      * <ul>
      *  <li>true, если команда имеет аргументы</li>
@@ -38,7 +61,7 @@ public class HelpCommand implements Command {
      */
     public void execute(String args) {
         System.out.println();
-        for (Command command : CommandManager.getCommands()) {
+        for (Command command : getCommandManager().getCommands()) {
             System.out.println(command.descr());
         }
         System.out.println();
@@ -51,5 +74,14 @@ public class HelpCommand implements Command {
      */
     public String descr() {
         return "help: вывести справку по доступным командам";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с командами.
+     *
+     * @param commandManager менеджер для работы с командами
+     */
+    public HelpCommand(CommandManager commandManager) {
+        setCommandManager(commandManager);
     }
 }

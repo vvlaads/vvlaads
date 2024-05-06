@@ -1,12 +1,38 @@
 package command;
 
 import manager.CollectionManager;
+import worker.Status;
 import worker.Worker;
+
+import java.util.Map;
 
 /**
  * Команда для вывода работника с минимальным статусом.
  */
 public class MinByStatusCommand implements Command {
+    /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
     /**
      * Возвращает
      * <ul>
@@ -38,9 +64,19 @@ public class MinByStatusCommand implements Command {
      * @param args аргументы команды
      */
     public void execute(String args) {
-        Worker worker = CollectionManager.minStatus();
-        if (worker != null) {
-            System.out.println(worker);
+        Worker newWorker = null;
+        Status status = Status.REGULAR;
+        for (Map.Entry<Integer, Worker> entry : getCollectionManager().getTreeMap().entrySet()) {
+            Worker worker = entry.getValue();
+            if (worker.getStatus() != null) {
+                if (worker.getStatus().compareTo(status) < 0) {
+                    status = worker.getStatus();
+                    newWorker = worker;
+                }
+            }
+        }
+        if (newWorker != null) {
+            System.out.println(newWorker);
         } else {
             System.out.println("В коллекции отсутствуют работники со статусом");
         }
@@ -53,5 +89,14 @@ public class MinByStatusCommand implements Command {
      */
     public String descr() {
         return "min_by_status : вывести любой объект из коллекции, значение поля status которого является минимальным";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public MinByStatusCommand(CollectionManager collectionManager) {
+        setCollectionManager(collectionManager);
     }
 }

@@ -7,6 +7,29 @@ import manager.CollectionManager;
  */
 public class InfoCommand implements Command {
     /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
+    /**
      * Возвращает
      * <ul>
      *  <li>true, если команда имеет аргументы</li>
@@ -37,9 +60,9 @@ public class InfoCommand implements Command {
      * @param args аргументы команды
      */
     public void execute(String args) {
-        System.out.println("Тип коллекции: " + CollectionManager.getTreeMap().getClass());
-        System.out.println("Дата создания коллекции: " + CollectionManager.getDateCreated());
-        System.out.println("Количество элементов: " + CollectionManager.getTreeMap().size());
+        System.out.println("Тип коллекции: " + getCollectionManager().getTreeMap().getClass());
+        System.out.println("Дата создания коллекции: " + getCollectionManager().getDateCreated());
+        System.out.println("Количество элементов: " + getCollectionManager().getTreeMap().size());
     }
 
     /**
@@ -49,5 +72,14 @@ public class InfoCommand implements Command {
      */
     public String descr() {
         return "info: вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public InfoCommand(CollectionManager collectionManager) {
+        setCollectionManager(collectionManager);
     }
 }

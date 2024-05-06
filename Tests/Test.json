@@ -153,6 +153,22 @@
       }
     }
   },
+  "16" : {
+    "name" : "Петр",
+    "coordinates" : {
+      "x" : 5,
+      "y" : 5
+    },
+    "salary" : 234,
+    "position" : "COOK",
+    "status" : "RECOMMENDED_FOR_PROMOTION",
+    "organization" : {
+      "fullName" : "0",
+      "employeesCount" : 1,
+      "type" : "GOVERNMENT",
+      "postalAddress" : null
+    }
+  },
   "17" : {
     "name" : "null",
     "coordinates" : {

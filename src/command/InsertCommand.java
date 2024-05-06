@@ -3,13 +3,60 @@ package command;
 import calculate.CreateWorker;
 import calculate.Calculate;
 import manager.CollectionManager;
+import manager.CommandManager;
 import worker.Worker;
 
+import java.util.NoSuchElementException;
 
 /**
  * Команда для добавления работника в коллекцию.
  */
 public class InsertCommand implements Command {
+    /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+    /**
+     * Менеджер для работы с командами.
+     */
+    private CommandManager commandManager;
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
+    /**
+     * Возвращает менеджер для работы с командами.
+     *
+     * @return менеджер для работы с командами
+     */
+    public CommandManager getCommandManager() {
+        return commandManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с командами.
+     *
+     * @param commandManager менеджер для работы с командами
+     */
+    public void setCommandManager(CommandManager commandManager) {
+        this.commandManager = commandManager;
+    }
+
     /**
      * Возвращает
      * <ul>
@@ -45,12 +92,17 @@ public class InsertCommand implements Command {
             System.out.println("Неверное значение аргумента");
         } else {
             Integer key = Integer.parseInt(args);
-            if (CollectionManager.hasKey(key)) {
+            if (getCollectionManager().hasKey(key)) {
                 System.out.println("Объект с таким ключом уже существует");
             } else {
-                Worker worker = CreateWorker.createWorker();
-                CollectionManager.getTreeMap().put(key, worker);
-                System.out.println("Объект успешно добавлен");
+                try {
+                    CreateWorker createWorker = new CreateWorker();
+                    Worker worker = createWorker.createWorker(getCommandManager().getScanner());
+                    getCollectionManager().getTreeMap().put(key, worker);
+                    System.out.println("Объект успешно добавлен");
+                } catch (NoSuchElementException e) {
+                    System.out.println("Не удалось добавить объект");
+                }
             }
         }
     }
@@ -62,5 +114,16 @@ public class InsertCommand implements Command {
      */
     public String descr() {
         return "insert null {element}: добавить новый элемент с заданным ключом";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией и менеджер для работы с командами.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     * @param commandManager    менеджер для работы с командами
+     */
+    public InsertCommand(CollectionManager collectionManager, CommandManager commandManager) {
+        setCollectionManager(collectionManager);
+        setCommandManager(commandManager);
     }
 }

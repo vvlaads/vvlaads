@@ -11,18 +11,62 @@ public class CommandManager {
     /**
      * HashMap, хранящая все команды.
      */
-    private static final Map<String, Command> commands = new HashMap<>();
+    private final Map<String, Command> commands = new HashMap<>();
     /**
      * List, хранящий команды с аргументами.
      */
-    private static final List<Command> commandsWithArguments = new ArrayList<>();
+    private final List<Command> commandsWithArguments = new ArrayList<>();
+    /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+    /**
+     * Сканер, через который поступают команды.
+     */
+    private Scanner scanner;
+
+    /**
+     * Возвращает сканер, через который поступают команды.
+     *
+     * @return сканер, через который поступают команды
+     */
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    /**
+     * Устанавливает сканер, через который поступают команды.
+     *
+     * @param scanner сканер, через который поступают команды
+     */
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
 
     /**
      * Добавляет команду в коллекцию всех команд и в коллекцию команд с аргументами, если команда имеет аргумент.
      *
      * @param command команда для добавления
      */
-    public static void addCommand(Command command) {
+    public void addCommand(Command command) {
         commands.put(command.getName(), command);
         if (command.hasArguments()) {
             commandsWithArguments.add(command);
@@ -34,7 +78,7 @@ public class CommandManager {
      *
      * @return коллекция List со всеми командами
      */
-    public static List<Command> getCommands() {
+    public List<Command> getCommands() {
         List<Command> values = new ArrayList<>();
         for (Map.Entry<String, Command> entry : commands.entrySet()) {
             Command value = entry.getValue();
@@ -49,7 +93,7 @@ public class CommandManager {
      * @param name название команды
      * @return команда с переданным названием
      */
-    public static Command getCommand(String name) {
+    public Command getCommand(String name) {
         return commands.get(name);
     }
 
@@ -59,7 +103,7 @@ public class CommandManager {
      * @param line строка, содержащая команду
      */
 
-    public static void execute(String line) {
+    public void execute(String line) {
         String[] tokens = line.split(" ");
         Command command = getCommand(tokens[0]);
         if (command != null) {
@@ -84,22 +128,33 @@ public class CommandManager {
     /**
      * Добавляет команды в коллекцию всех команд и в коллекцию команд с аргументами, если команда имеет аргумент.
      */
-    public static void addAllCommands() {
-        addCommand(new HelpCommand());
-        addCommand(new InfoCommand());
-        addCommand(new ShowCommand());
-        addCommand(new InsertCommand());
-        addCommand(new UpdateCommand());
-        addCommand(new RemoveKeyCommand());
-        addCommand(new ClearCommand());
-        addCommand(new SaveCommand());
-        addCommand(new ExecuteScriptCommand());
+    public void addAllCommands() {
         addCommand(new ExitCommand());
-        addCommand(new RemoveGreaterCommand());
-        addCommand(new ReplaceIfLoweCommand());
-        addCommand(new RemoveLowerKeyCommand());
-        addCommand(new AverageOfSalaryCommand());
-        addCommand(new MinByStatusCommand());
-        addCommand(new PrintDescendingCommand());
+        addCommand(new HelpCommand(this));
+        addCommand(new SaveCommand(getCollectionManager()));
+        addCommand(new InfoCommand(getCollectionManager()));
+        addCommand(new ShowCommand(getCollectionManager()));
+        addCommand(new ClearCommand(getCollectionManager()));
+        addCommand(new InsertCommand(getCollectionManager(), this));
+        addCommand(new UpdateCommand(getCollectionManager(), this));
+        addCommand(new RemoveKeyCommand(getCollectionManager()));
+        addCommand(new ExecuteScriptCommand(getCollectionManager()));
+        addCommand(new RemoveGreaterCommand(getCollectionManager(), this));
+        addCommand(new ReplaceIfLoweCommand(getCollectionManager(), this));
+        addCommand(new RemoveLowerKeyCommand(getCollectionManager()));
+        addCommand(new AverageOfSalaryCommand(getCollectionManager()));
+        addCommand(new MinByStatusCommand(getCollectionManager()));
+        addCommand(new PrintDescendingCommand(getCollectionManager()));
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией и сканер, через который поступают команды.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     * @param scanner           сканер, через который поступают команды
+     */
+    public CommandManager(CollectionManager collectionManager, Scanner scanner) {
+        setCollectionManager(collectionManager);
+        setScanner(scanner);
     }
 }

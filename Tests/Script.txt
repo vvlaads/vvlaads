@@ -1,3 +1,9 @@
 help
 show
-insert 8
+insert 33
+Василий
+10
+10
+10
+10
+10

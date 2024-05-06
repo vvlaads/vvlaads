@@ -20,7 +20,7 @@ public class JacksonParser {
      * @return коллекция TreeMap, хранящая работников с целочисленными ключами
      * @throws JsonProcessingException ошибка десериализации строки
      */
-    public static TreeMap<Integer, Worker> parseFromJson(String json) throws JsonProcessingException {
+    public TreeMap<Integer, Worker> parseFromJson(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         TreeMap<Integer, Worker> workerTreeMap;
         workerTreeMap = objectMapper.readValue(json, new TypeReference<>() {
@@ -35,7 +35,7 @@ public class JacksonParser {
      * @return строка в формате JSON
      * @throws IOException ошибка сериализации коллекции
      */
-    public static String parseToJson(TreeMap<Integer, Worker> workerTreeMap) throws IOException {
+    public String parseToJson(TreeMap<Integer, Worker> workerTreeMap) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(workerTreeMap);
     }

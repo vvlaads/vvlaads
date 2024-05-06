@@ -17,13 +17,17 @@ public class FileManager {
      * Путь к файлу.
      */
     private static String filePath;
+    /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
 
     /**
      * Возвращает путь к файлу.
      *
      * @return путь к файлу
      */
-    public static String getFilepath() {
+    public String getFilepath() {
         return filePath;
     }
 
@@ -32,7 +36,7 @@ public class FileManager {
      *
      * @param filePath путь к файлу
      */
-    public static void setFilepath(String filePath) {
+    public void setFilepath(String filePath) {
         if (filePath != null) {
             FileManager.filePath = filePath;
         } else {
@@ -42,16 +46,42 @@ public class FileManager {
     }
 
     /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
+    /**
      * Записывает строку в файл.
      *
      * @param string строка для записи
      * @throws IOException ошибка записи в файл
      */
-    public static void write(String string) throws IOException {
+    public void write(String string) throws IOException {
         File file = new File(getFilepath());
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(string);
-        fileWriter.close();
+        if (!file.exists()) {
+            throw new IOException();
+        }
+        if (file.canWrite()) {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(string);
+            fileWriter.close();
+        } else {
+            System.out.println("Не удалось записать в файл");
+            throw new IOException();
+        }
     }
 
     /**
@@ -60,30 +90,40 @@ public class FileManager {
      * @throws FileNotFoundException   ошибка обнаружения файла для чтения
      * @throws JsonProcessingException ошибка десериализации файла
      */
-    public static void read() throws FileNotFoundException, JsonProcessingException {
+    public void read() throws FileNotFoundException, JsonProcessingException {
         File file = new File(getFilepath());
-        String json = "";
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNext()) {
-            json = json + scanner.next();
+        if (!file.exists()) {
+            throw new FileNotFoundException();
         }
-        scanner.close();
-        CollectionManager.getTreeMap().putAll(JacksonParser.parseFromJson(json));
+        if (!file.canRead() || !file.canWrite() || !file.canExecute()) {
+            System.out.println("Внимание! Права доступа к файлу:");
+            System.out.println("read: " + file.canRead());
+            System.out.println("write: " + file.canWrite());
+            System.out.println("execute: " + file.canExecute());
+        }
+        if (file.canRead()) {
+            if (file.length() > 0) {
+                String json = "";
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNext()) {
+                    json = json + scanner.next();
+                }
+                scanner.close();
+                JacksonParser jacksonParser = new JacksonParser();
+                getCollectionManager().getTreeMap().putAll(jacksonParser.parseFromJson(json));
+            }
+        } else {
+            System.out.println("Не удалось прочитать файл");
+            throw new FileNotFoundException();
+        }
     }
 
     /**
-     * Выполняет скрипт из файла
+     * Конструктор задает менеджер для работы с коллекцией.
      *
-     * @param filePath путь к файлу
-     * @throws FileNotFoundException ошибка обнаружения файла для чтения
+     * @param collectionManager менеджер для работы с коллекцией
      */
-    public static void executeScript(String filePath) throws FileNotFoundException {
-        File file = new File(filePath);
-        Scanner scanner = new Scanner(file);
-        while (scanner.hasNext()) {
-            String line = scanner.nextLine();
-            CommandManager.execute(line);
-        }
-        scanner.close();
+    public FileManager(CollectionManager collectionManager) {
+        setCollectionManager(collectionManager);
     }
 }

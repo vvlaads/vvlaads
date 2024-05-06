@@ -80,6 +80,11 @@ public class Organization {
     public void setFullName(String fullName) {
         if (fullName != null && fullName.length() <= 943) {
             this.fullName = fullName;
+        } else if (fullName != null) {
+            System.out.println("Название организации не удовлетворяет условиям. Выставлено значение по умолчанию");
+            this.fullName = null;
+        } else {
+            this.fullName = null;
         }
     }
 
@@ -101,6 +106,7 @@ public class Organization {
         if (employeesCount != null && employeesCount > 0) {
             this.employeesCount = employeesCount;
         } else {
+            System.out.println("Количество работников не удовлетворяет условиям. Выставлено значение по умолчанию");
             this.employeesCount = 1;
         }
     }
@@ -120,7 +126,12 @@ public class Organization {
      * @param type тип организации
      */
     public void setType(OrganizationType type) {
-        this.type = type != null ? type : OrganizationType.PRIVATE_LIMITED_COMPANY;
+        if (type != null) {
+            this.type = type;
+        } else {
+            System.out.println("Тип организации не удовлетворяет условиям. Выставлено значение по умолчанию");
+            this.type = OrganizationType.PRIVATE_LIMITED_COMPANY;
+        }
     }
 
     /**

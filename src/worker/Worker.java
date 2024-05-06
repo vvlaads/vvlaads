@@ -3,7 +3,7 @@ package worker;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.HashSet;
+import java.util.*;
 import java.time.LocalDateTime;
 
 /**
@@ -16,8 +16,7 @@ public class Worker implements Comparable<Worker> {
      * Коллекция, хранящая значения ID работников.
      */
     @JsonIgnore
-
-    private final static HashSet<Long> idSet = new HashSet<>();
+    private final static Deque<Long> idDeque = new ArrayDeque<>();
     /**
      * ID работника.
      */
@@ -96,13 +95,11 @@ public class Worker implements Comparable<Worker> {
      */
     public Worker() {
         setId();
-        setName(null);
-        setCoordinates(null);
+        setName("Неизвестный");
+        setCoordinates(new Coordinates());
         setCreationDate();
-        setSalary(null);
-        setPosition(null);
-        setStatus(null);
-        setOrganization(null);
+        setPosition(Position.LABORER);
+        setOrganization(new Organization());
     }
 
     /**
@@ -139,13 +136,12 @@ public class Worker implements Comparable<Worker> {
      * Устанавливает ID работника.
      */
     public void setId() {
-        long result = (long) (Math.random() * 10000000000L) + 1;
-        if (idSet.contains(result)) {
-            setId();
+        if (!idDeque.isEmpty()) {
+            this.id = idDeque.getLast() + 1;
         } else {
-            id = result;
-            idSet.add(result);
+            this.id = 1;
         }
+        idDeque.addLast(this.id);
     }
 
     /**
@@ -163,9 +159,10 @@ public class Worker implements Comparable<Worker> {
      * @param name имя работника
      */
     public void setName(String name) {
-        if (name != null && !name.isEmpty()) {
+        if (name != null && !name.isBlank()) {
             this.name = name;
         } else {
+            System.out.println("Имя работника с ID:" + getId() + " не удовлетворяет условиям. Выставлено значение по умолчанию");
             this.name = "Неизвестный";
         }
     }
@@ -185,7 +182,12 @@ public class Worker implements Comparable<Worker> {
      * @param coordinates расположение работника
      */
     public void setCoordinates(Coordinates coordinates) {
-        this.coordinates = coordinates != null ? coordinates : new Coordinates();
+        if (coordinates != null) {
+            this.coordinates = coordinates;
+        } else {
+            System.out.println("Расположение работника с ID:" + getId() + " не удовлетворяет условиям. Выставлено значение по умолчанию");
+            new Coordinates();
+        }
     }
 
     /**
@@ -201,17 +203,7 @@ public class Worker implements Comparable<Worker> {
      * Устанавливает дату создания работника.
      */
     public void setCreationDate() {
-        int year = (int) (Math.random() * 2025);
-        int month = (int) (Math.random() * 12) + 1;
-        int day = (int) (Math.random() * 30) + 1;
-        int hour = (int) (Math.random() * 24);
-        int minute = (int) (Math.random() * 60);
-        int second = (int) (Math.random() * 60);
-        if (month == 2 && day >= 29) {
-            creationDate = LocalDateTime.of(year, month, 28, hour, minute, second);
-        } else {
-            creationDate = LocalDateTime.of(year, month, day, hour, minute, second);
-        }
+        this.creationDate = LocalDateTime.now();
     }
 
     /**
@@ -231,6 +223,11 @@ public class Worker implements Comparable<Worker> {
     public void setSalary(Long salary) {
         if (salary != null && salary > 0) {
             this.salary = salary;
+        } else if (salary != null) {
+            System.out.println("Зарплата работника с ID:" + getId() + " не удовлетворяет условиям. Выставлено значение по умолчанию");
+            this.salary = null;
+        } else {
+            this.salary = null;
         }
     }
 
@@ -249,7 +246,12 @@ public class Worker implements Comparable<Worker> {
      * @param position должность работника
      */
     public void setPosition(Position position) {
-        this.position = position != null ? position : Position.LABORER;
+        if (position != null) {
+            this.position = position;
+        } else {
+            System.out.println("Должность работника с ID:" + getId() + " не удовлетворяет условиям. Выставлено значение по умолчанию");
+            this.position = Position.LABORER;
+        }
     }
 
     /**
@@ -285,6 +287,11 @@ public class Worker implements Comparable<Worker> {
      * @param organization организация работника
      */
     public void setOrganization(Organization organization) {
-        this.organization = organization != null ? organization : new Organization();
+        if (organization != null) {
+            this.organization = organization;
+        } else {
+            System.out.println("Организация работника с ID:" + getId() + " не удовлетворяет условиям. Выставлено значение по умолчанию");
+            this.organization = new Organization();
+        }
     }
 }

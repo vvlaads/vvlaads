@@ -25,7 +25,6 @@ public class Address {
      * Конструктор по умолчанию.
      */
     public Address() {
-        setStreet(null);
     }
 
     /**
@@ -55,6 +54,7 @@ public class Address {
         if (street != null && street.length() <= 144) {
             this.street = street;
         } else {
+            System.out.println("Адрес не удовлетворяет условиям. Выставлено значение по умолчанию");
             this.street = "Неизвестно";
         }
     }

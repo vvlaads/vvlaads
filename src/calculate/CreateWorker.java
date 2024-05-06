@@ -2,6 +2,7 @@ package calculate;
 
 import worker.*;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -12,17 +13,17 @@ public class CreateWorker {
     /**
      * Возвращает работника, созданного с помощью ввода данных из командной строки.
      *
+     * @param scanner сканер, через который заполняются поля
      * @return работник, созданный с помощью ввода данных из командной строки
+     * @throws NoSuchElementException ошибка отсутствия строк, получаемых из сканера
      */
 
-    public static Worker createWorker() {
+    public Worker createWorker(Scanner scanner) throws NoSuchElementException {
         Worker worker = new Worker();
-        Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("Введите имя работника: ");
             String line = scanner.nextLine();
-            if (!line.isEmpty()) {
+            if (!line.isBlank()) {
                 worker.setName(line);
                 break;
             }
@@ -70,60 +71,40 @@ public class CreateWorker {
         }
 
         boolean positionIsWrite = false;
-        while (!positionIsWrite) {
+        while (true) {
             PrintEnum.printEnumPosition();
             System.out.println("Выберите должность из списка выше: ");
             String line = scanner.nextLine();
-            switch (line) {
-                case "DIRECTOR":
-                    worker.setPosition(Position.DIRECTOR);
+            for (Position position : Position.values()) {
+                if (line.equals(position.name())) {
+                    worker.setPosition(position);
                     positionIsWrite = true;
-                    break;
-                case "LABORER":
-                    worker.setPosition(Position.LABORER);
-                    positionIsWrite = true;
-                    break;
-                case "HEAD_OF_DIVISION":
-                    worker.setPosition(Position.HEAD_OF_DIVISION);
-                    positionIsWrite = true;
-                    break;
-                case "DEVELOPER":
-                    worker.setPosition(Position.DEVELOPER);
-                    positionIsWrite = true;
-                    break;
-                case "COOK":
-                    worker.setPosition(Position.COOK);
-                    positionIsWrite = true;
-                    break;
-                default:
-                    System.out.println("Некорректный ввод должности");
+                }
             }
+            if (positionIsWrite) {
+                break;
+            }
+            System.out.println("Некорректный ввод должности");
         }
 
         boolean statusIsWrite = false;
-        while (!statusIsWrite) {
+        while (true) {
             PrintEnum.printEnumStatus();
             System.out.println("Выберите статус из списка выше: ");
             String line = scanner.nextLine();
-            switch (line) {
-                case "":
+            for (Status status : Status.values()) {
+                if (line.equals(status.name())) {
+                    worker.setStatus(status);
                     statusIsWrite = true;
-                    break;
-                case "HIRED":
-                    worker.setStatus(Status.HIRED);
+                } else if (line.isEmpty()) {
+                    worker.setStatus(null);
                     statusIsWrite = true;
-                    break;
-                case "RECOMMENDED_FOR_PROMOTION":
-                    worker.setStatus(Status.RECOMMENDED_FOR_PROMOTION);
-                    statusIsWrite = true;
-                    break;
-                case "REGULAR":
-                    worker.setStatus(Status.REGULAR);
-                    statusIsWrite = true;
-                    break;
-                default:
-                    System.out.println("Некорректный ввод статуса");
+                }
             }
+            if (statusIsWrite) {
+                break;
+            }
+            System.out.println("Некорректный ввод статуса");
         }
 
         Organization organization = new Organization();
@@ -152,26 +133,20 @@ public class CreateWorker {
         }
 
         boolean typeIsWrite = false;
-        while (!typeIsWrite) {
+        while (true) {
             PrintEnum.printEnumOrganizationType();
             System.out.println("Выберите тип организации из списка выше: ");
             String line = scanner.nextLine();
-            switch (line) {
-                case "GOVERNMENT":
-                    organization.setType(OrganizationType.GOVERNMENT);
+            for (OrganizationType type : OrganizationType.values()) {
+                if (line.equals(type.name())) {
+                    organization.setType(type);
                     typeIsWrite = true;
-                    break;
-                case "PRIVATE_LIMITED_COMPANY":
-                    organization.setType(OrganizationType.PRIVATE_LIMITED_COMPANY);
-                    typeIsWrite = true;
-                    break;
-                case "OPEN_JOINT_STOCK_COMPANY":
-                    organization.setType(OrganizationType.OPEN_JOINT_STOCK_COMPANY);
-                    typeIsWrite = true;
-                    break;
-                default:
-                    System.out.println("Некорректный ввод типа");
+                }
             }
+            if (typeIsWrite) {
+                break;
+            }
+            System.out.println("Некорректный ввод типа организации");
         }
 
         while (true) {

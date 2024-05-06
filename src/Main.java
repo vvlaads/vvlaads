@@ -17,23 +17,27 @@ public class Main {
      */
     public static void main(String[] args) {
         Dotenv dotenv = Dotenv.load();
-        FileManager.setFilepath(dotenv.get("FILEPATH"));
+        Scanner sc = new Scanner(System.in);
+        CollectionManager collectionManager = new CollectionManager();
+        CommandManager commandManager = new CommandManager(collectionManager, sc);
+        commandManager.addAllCommands();
+        FileManager fileManager = new FileManager(collectionManager);
+        fileManager.setFilepath(dotenv.get("FILEPATH"));
         try {
-            FileManager.read();
+            fileManager.read();
         } catch (FileNotFoundException e) {
-            System.out.println("Ошибка! Файл не найден. Укажите путь к файлу в переменной окружения \"FILEPATH\"");
+            System.out.println("Не найден файл. Укажите путь к файлу в переменной окружения \"FILEPATH\"");
             System.exit(1);
         } catch (JsonProcessingException e) {
             System.out.println("Ошибка! Невозможно преобразовать JSON файл в коллекцию");
             System.exit(1);
         }
-        CommandManager.addAllCommands();
-
-        Scanner sc = new Scanner(System.in);
         System.out.println("Введите команду: ");
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
-            CommandManager.execute(line);
+            if (!line.isBlank()) {
+                commandManager.execute(line);
+            }
         }
         sc.close();
     }

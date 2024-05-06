@@ -8,6 +8,29 @@ import manager.CollectionManager;
  */
 public class RemoveLowerKeyCommand implements Command {
     /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
+    /**
      * Возвращает
      * <ul>
      *  <li>true, если команда имеет аргументы</li>
@@ -42,7 +65,11 @@ public class RemoveLowerKeyCommand implements Command {
             System.out.println("Ошибка! Неверно введён ключ");
         } else {
             Integer key = Integer.parseInt(args);
-            CollectionManager.removeLowerKey(key);
+            Integer lowerKey = getCollectionManager().getTreeMap().lowerKey(key);
+            while (lowerKey != null) {
+                getCollectionManager().getTreeMap().remove(lowerKey);
+                lowerKey = getCollectionManager().getTreeMap().lowerKey(key);
+            }
             System.out.println("Объекты успешно удалены");
         }
     }
@@ -54,5 +81,14 @@ public class RemoveLowerKeyCommand implements Command {
      */
     public String descr() {
         return "remove_lower_key null : удалить из коллекции все элементы, ключ которых меньше, чем заданный";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public RemoveLowerKeyCommand(CollectionManager collectionManager) {
+        setCollectionManager(collectionManager);
     }
 }

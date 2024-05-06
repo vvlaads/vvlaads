@@ -7,6 +7,29 @@ import manager.CollectionManager;
  */
 public class ShowCommand implements Command {
     /**
+     * Менеджер для работы с коллекцией.
+     */
+    private CollectionManager collectionManager;
+
+    /**
+     * Возвращает менеджер для работы с коллекцией.
+     *
+     * @return менеджер для работы с коллекцией
+     */
+    public CollectionManager getCollectionManager() {
+        return collectionManager;
+    }
+
+    /**
+     * Устанавливает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public void setCollectionManager(CollectionManager collectionManager) {
+        this.collectionManager = collectionManager;
+    }
+
+    /**
      * Возвращает
      * <ul>
      *  <li>true, если команда имеет аргументы</li>
@@ -37,7 +60,7 @@ public class ShowCommand implements Command {
      * @param args аргументы команды
      */
     public void execute(String args) {
-        CollectionManager.getWorkers();
+        getCollectionManager().getWorkers();
     }
 
     /**
@@ -47,5 +70,14 @@ public class ShowCommand implements Command {
      */
     public String descr() {
         return "show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении";
+    }
+
+    /**
+     * Конструктор задает менеджер для работы с коллекцией.
+     *
+     * @param collectionManager менеджер для работы с коллекцией
+     */
+    public ShowCommand(CollectionManager collectionManager) {
+        setCollectionManager(collectionManager);
     }
 }
