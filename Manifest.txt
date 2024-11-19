@@ -1,2 +1,0 @@
-Main-Class: Main
-Class-Path: lib/jackson-annotations-2.13.2.jar lib/jackson-core-2.13.2.jar lib/jackson-databind-2.13.2.2.jar lib/dotenv-java-3.0.0.jar
