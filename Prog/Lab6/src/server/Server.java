@@ -16,6 +16,8 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Класс сервера.
@@ -57,6 +59,10 @@ public class Server {
      * </ul>
      */
     private boolean opening;
+    /**
+     * Logger для отслеживания работы сервера
+     */
+    private static final Logger logger = Logger.getLogger("Server");
 
     /**
      * Возвращает порт сервера.
@@ -237,8 +243,9 @@ public class Server {
             setDatagramChannel(DatagramChannel.open());
             getDatagramChannel().bind(getServerAddress());
             setOpening(true);
+            logger.log(Level.INFO, "Канал передачи данных открыт");
         } catch (IOException e) {
-            System.out.println("Не удалось открыть сетевой канал");
+            logger.log(Level.WARNING, "Не удалось открыть сетевой канал");
         }
     }
 
@@ -248,8 +255,9 @@ public class Server {
     public void closeChannel() {
         try {
             getDatagramChannel().close();
+            logger.log(Level.INFO, "Канал передачи данных закрыт");
         } catch (IOException e) {
-            System.out.println("Не удалось закрыть сетевой канал");
+            logger.log(Level.WARNING, "Не удалось закрыть сетевой канал");
         }
     }
 
@@ -265,12 +273,13 @@ public class Server {
             byte[] bytes = buffer.array();
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+            logger.log(Level.INFO, "Получен запрос");
             return (Request) objectInputStream.readObject();
         } catch (ClassNotFoundException e) {
-            System.out.println("Ошибка десериализации запроса");
+            logger.log(Level.WARNING, "Ошибка десериализации запроса");
             return new Request();
         } catch (IOException e) {
-            System.out.println("Ошибка чтения сообщения");
+            logger.log(Level.WARNING, "Ошибка чтения");
             return new Request();
         }
     }
@@ -286,8 +295,9 @@ public class Server {
             buffer.put(message.getBytes(StandardCharsets.UTF_16));
             buffer.flip();
             getDatagramChannel().send(buffer, getClientAddress());
+            logger.log(Level.INFO, "Отправлен ответ клиенту");
         } catch (IOException e) {
-            System.out.println("Ошибка отправки сообщения");
+            logger.log(Level.WARNING, "Ошибка отправки сообщения");
         }
     }
 
@@ -302,6 +312,7 @@ public class Server {
         Argument argument = request.getArgument();
         Worker worker = request.getWorker();
         Command serverCommand = getCommandManager().getCommand(command.getName());
+        logger.log(Level.INFO, "Обработка запроса");
         return serverCommand.execute(argument, worker);
     }
 
@@ -309,7 +320,7 @@ public class Server {
      * Запускает сервер для обработки запросов от клиента.
      */
     public void run() {
-        System.out.println("Сервер запущен");
+        logger.log(Level.INFO, "Сервер запущен");
         setRunning(true);
         while (isRunning()) {
             if (!isOpening()) {
@@ -332,11 +343,12 @@ public class Server {
         try {
             JacksonParser jacksonParser = new JacksonParser();
             fileManager.write(jacksonParser.parseToJson(getCommandManager().getCollectionManager().getTreeMap()));
-            System.out.println("Сохранено");
+            logger.log(Level.INFO, "Изменения сохранены");
             closeChannel();
             setOpening(false);
+            logger.log(Level.INFO, "Отключение клиента");
         } catch (IOException e) {
-            System.out.println("Ошибка! Нельзя сохранить в файл");
+            logger.log(Level.WARNING, "Ошибка! Нельзя сохранить в файл");
         }
     }
 }
