@@ -1,9 +1,0 @@
-client
-server
-utility
-utility.calculate
-utility.command
-utility.comparators
-utility.manager
-utility.parser
-utility.worker
