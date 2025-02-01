@@ -1,0 +1,2 @@
+Main-Class: server.ServerMain
+Class-Path: lib/jackson-annotations-2.13.2.jar lib/jackson-core-2.13.2.jar lib/jackson-databind-2.13.2.2.jar lib/postgresql-42.7.4.jar

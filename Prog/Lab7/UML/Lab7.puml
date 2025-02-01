@@ -1,0 +1,618 @@
+@startuml
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+
+package client {
+    class Client #acb{
+        - int port
+        - DatagramChannel datagramChannel
+        - InetSocketAddress serverAddress
+        - boolean running
+        - CommandManager commandManager
+
+        + int getPort()
+        + setPort(int port)
+        + DatagramChannel getDatagramChannel()
+        + setDatagramChannel(DatagramChannel datagramChannel)
+        + InetSocketAddress getServerAddress()
+        + setServerAddress(InetSocketAddress serverAddress)
+        + boolean isRunning()
+        + setRunning(boolean running)
+        + CommandManager getCommandManager()
+        + setCommandManager(CommandManager commandManager)
+        + Client(CommandManager commandManager, int port)
+        + openChannel()
+        + closeChannel()
+        + String readMessage()
+        + sendMessage(Request request)
+        + readCommand()
+        + run()
+        }
+
+    class ClientMain #acb{
+        + {static} main(String[] args)
+        }
+}
+package server{
+    class Server #acb{
+        - int port
+        - InetSocketAddress serverAddress
+        - SocketAddress clientAddress
+        - CommandManager commandManager
+        - DatagramChannel datagramChannel
+        - boolean running;
+        - boolean opening;
+
+        + int getPort()
+        + setPort(int port)
+        + InetSocketAddress getServerAddress()
+        + setServerAddress(InetSocketAddress serverAddress)
+        + SocketAddress getClientAddress()
+        + setClientAddress(SocketAddress clientAddress)
+        + CommandManager getCommandManager()
+        + setCommandManager(CommandManager commandManager)
+        + DatagramChannel getDatagramChannel()
+        + setDatagramChannel(DatagramChannel datagramChannel)
+        + boolean isRunning()
+        + setRunning(boolean running)
+        + boolean isOpening()
+        + setOpening(boolean opening)
+        + Server(CommandManager commandManager, int port)
+        + openChannel()
+        + closeChannel()
+        + Request readMessage()
+        +  sendMessage(String message)
+        + String execute(Request request)
+        + run()
+        + disconnectClient()
+        }
+
+    class ServerMain #acb{
+        + {static} main(String[] args)
+        }
+}
+package utility{
+    package calculate #eee{
+        class Calculate #acb{
+            + {static} boolean stringIsLong(String string)
+            + {static} boolean stringIsInteger(String string)
+        }
+
+        class CreateWorker #acb{
+            + Worker createWorker(Scanner scanner)
+        }
+
+        class PrintEnum #acb{
+            + {static} printEnumPosition()
+            + {static} printEnumStatus()        
+            + {static} printEnumOrganizationType()
+        }
+    }
+    package command #eee{
+        class Argument #acb{
+            - {static} final long serialVersionUID = 200L
+            - String name
+
+            + String getName()
+            + setName(String name)
+            + Argument(String name)
+            + Argument()
+        }
+
+        class AverageOfSalaryCommand #acb{
+            - {static} final long serialVersionUID = 101L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+            + AverageOfSalaryCommand(CollectionManager collectionManager)
+        }
+
+        class ClearCommand #acb{
+            - {static} final long serialVersionUID = 102L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+            + ClearCommand(CollectionManager collectionManager)
+        }
+
+        interface Command #bac{
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+        }
+
+        class ExecuteScriptCommand #acb {
+            - {static} final long serialVersionUID = 103L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+            + ExecuteScriptCommand(CollectionManager collectionManager)
+        }
+
+        class ExitCommand #acb{
+            - {static} final long serialVersionUID = 104L
+
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+        }
+
+        class HelpCommand #acb{
+            - {static} final long serialVersionUID = 105L
+            - CommandManager commandManager
+
+            + CommandManager getCommandManager()
+            + setCommandManager(CommandManager commandManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + HelpCommand(CommandManager commandManager)
+        }
+
+        class InfoCommand #acb{
+            - {static} final long serialVersionUID = 106L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + InfoCommand(CollectionManager collectionManager)
+        }
+
+        class InsertCommand #acb{
+            - {static} final long serialVersionUID = 107L
+            - CollectionManager collectionManager
+            - CommandManager commandManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + CommandManager getCommandManager()
+            + setCommandManager(CommandManager commandManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + InsertCommand(CollectionManager collectionManager, CommandManager commandManager)
+        }
+
+        class MinByStatusCommand #acb{
+            - {static} final long serialVersionUID = 108L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker w)
+            + String descr()
+            + MinByStatusCommand(CollectionManager collectionManager)
+        }
+
+        class PrintDescendingCommand #acb{
+            - {static} final long serialVersionUID = 109L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + PrintDescendingCommand(CollectionManager collectionManager)
+        }
+
+        class RemoveGreaterCommand #acb{
+            - {static} final long serialVersionUID = 110L
+            - CollectionManager collectionManager
+            - CommandManager commandManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + CommandManager getCommandManager()
+            + setCommandManager(CommandManager commandManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+            + RemoveGreaterCommand(CollectionManager collectionManager, CommandManager commandManager)
+        }
+
+        class RemoveKeyCommand #acb{
+            - {static} final long serialVersionUID = 111L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + RemoveKeyCommand(CollectionManager collectionManager)
+        }
+
+        class RemoveLowerKeyCommand #acb{
+            - {static} final long serialVersionUID = 112L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + RemoveLowerKeyCommand(CollectionManager collectionManager)
+        }
+
+        class ReplaceIfLoweCommand #acb{
+            - {static} final long serialVersionUID = 113L
+            - CollectionManager collectionManager
+            - CommandManager commandManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + CommandManager getCommandManager()
+            + setCommandManager(CommandManager commandManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + ReplaceIfLoweCommand(CollectionManager collectionManager, CommandManager commandManager)
+        }
+
+        class ShowCommand #acb{
+            - {static} final long serialVersionUID = 114L
+            - CollectionManager collectionManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker worker)
+            + String descr()
+            + ShowCommand(CollectionManager collectionManager)
+        }
+
+        class UpdateCommand #acb{
+            - {static} final long serialVersionUID = 115L
+            - CollectionManager collectionManager
+            - CommandManager commandManager
+
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + CommandManager getCommandManager()
+            + setCommandManager(CommandManager commandManager)
+            + boolean hasArguments()
+            + String getName()
+            + String execute(Argument argument, Worker newWorker)
+            + String descr()
+            + UpdateCommand(CollectionManager collectionManager, CommandManager commandManager)
+        }
+    }
+
+
+    package comparators #eee{
+        class DescendingWorkerComparator #acb{
+            + int compare(Worker worker1, Worker worker2)
+        }
+
+        class WorkerStatusComparator #acb{
+            + int compare(Worker worker1, Worker worker2)
+        }
+    }
+
+
+    package manager #eee{
+        class CollectionManager #acb{
+        - {static} final long serialVersionUID = 2000L;
+        - final TreeMap<Integer, Worker> workers
+        - final Date dateCreated
+
+        + Date getDateCreated()
+        + TreeMap<Integer, Worker> getTreeMap()
+        + boolean hasKey(Integer key)
+        + boolean hasID(long id)
+        }
+
+        class CommandManager #acb{
+            - final {static} long serialVersionUID = 2001L
+            - final Map<String, Command> commands
+            - final List<Command> commandsWithArguments
+            - final List<String> commandsWithCreateWorker
+            - CollectionManager collectionManager
+
+            + List<String> getCommandsWithCreateWorker()
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + List<Command> getCommandsWithArguments()
+            + addCommand(Command command)
+            + List<Command> getCommands()
+            + Command getCommand(String name)
+            + String execute(String line, Scanner scanner)
+            + addAllCommands()
+            + CommandManager(CollectionManager collectionManager)
+        }
+
+        class FileManager #acb{
+            - {static} String filePath
+            - CollectionManager collectionManager
+
+            + String getFilepath()
+            + setFilepath(String filepath)
+            + CollectionManager getCollectionManager()
+            + setCollectionManager(CollectionManager collectionManager)
+            + write(String string)
+            + read()
+            + FileManager(CollectionManager collectionManager)
+        }
+    }
+
+
+    package parser #eee{
+        class JacksonParser #acb{
+            + TreeMap<Integer, Worker> parseFromJson(String json)
+            + String parseToJson(TreeMap<Integer, Worker> workerTreeMap)
+        }
+    }
+
+
+    package worker #eee{
+        class Address #acb{
+            - {static} final long serialVersionUID = 1003L
+            - String street
+            
+            + String toString()
+            + Address()
+            + Address(String street)
+            + String getStreet()
+            + setStreet(String street)
+        }
+
+        class Coordinates #acb{
+            - {static} final long serialVersionUID = 1002L    
+            - long x    
+            - Integer y
+               
+            + String toString()
+            + Coordinates()
+            + Coordinates(long x, Integer y)
+            + long getX()
+            + setX(long x)
+            + Integer getY()
+            + setY(Integer y)
+        }
+        class Organization #acb{
+            - {static} final long serialVersionUID = 1001L
+            - String fullName
+            - Integer employeesCount
+            - OrganizationType type
+            - Address postalAddress
+
+            + String toString()
+            + Organization()
+            + Organization(String fullName, Integer employeesCount, OrganizationType type, Address postalAddress) {
+            + String getFullName()
+            + setFullName(String fullName)
+            + Integer getEmployeesCount()
+            + setEmployeesCount(Integer employeesCount)
+            + OrganizationType getType()
+            + setType(OrganizationType type)
+            + Address getPostalAddress()
+            + setPostalAddress(Address postalAddress)
+        }
+
+        enum OrganizationType #d67e74{
+            GOVERNMENT
+            PRIVATE_LIMITED_COMPANY
+            OPEN_JOINT_STOCK_COMPANY
+        }
+
+        enum Position #d67e74{
+            DIRECTOR
+            LABORER
+            HEAD_OF_DIVISION
+            DEVELOPER
+            COOK
+        }
+
+        enum Status #d67e74{
+            HIRED
+            RECOMMENDED_FOR_PROMOTION
+            REGULAR
+        }
+
+        class Worker #acb{
+            - {static} final long serialVersionUID = 1000L
+            - {static} final Deque<Long> idDeque
+            - long id            
+            - String name            
+            - Coordinates coordinates        
+            - java.time.LocalDateTime creationDate
+            - Long salary          
+            - Position position           
+            - Status status           
+            - Organization organization
+            
+            + String toString()
+            + int compareTo(Worker worker)
+            + Worker()        
+            + Worker(String name, Coordinates coordinates, Long salary, Position position, Status status, Organization organization)
+            + long getId()
+            + setId()
+            + String getName()
+            + setName(String name)
+            + Coordinates getCoordinates()
+            + setCoordinates(Coordinates coordinates)
+            + java.time.LocalDateTime getCreationDate()
+            + setCreationDate()
+            + Long getSalary()
+            + setSalary(Long salary)
+            + Position getPosition()
+            + setPosition(Position position)
+            + Status getStatus()
+            + setStatus(Status status)
+            + Organization getOrganization()
+            + setOrganization(Organization organization)
+        }
+    }
+    class Request #acb{
+    - {static} final long serialVersionUID = 777L
+        - Command command       
+        - Argument argument     
+        - Worker worker
+                
+        + Command getCommand()
+        + setCommand(Command command)
+        + Argument getArgument()
+        + setArgument(Argument argument)
+        + Worker getWorker()
+        + setWorker(Worker worker)
+        + Request()
+        + String toString()
+    }
+}
+
+
+Worker .up[#bf3f3f].> Status
+Worker .up[#bf3f3f].> Position
+Worker .left.> Organization
+Worker .down.> Coordinates
+Organization .up[#bf3f3f].> OrganizationType
+Organization .down.> Address
+Request .up.> Argument
+Request ..> Command
+Request .down.> Worker
+JacksonParser .up.> Worker
+CollectionManager .> Worker
+CommandManager .> CreateWorker
+CommandManager .> command
+CommandManager .> Worker
+CommandManager .> CollectionManager
+FileManager .down.> JacksonParser
+FileManager .> CollectionManager
+DescendingWorkerComparator .up.> Worker
+WorkerStatusComparator .up.> Worker
+CreateWorker ..> worker
+CreateWorker .> PrintEnum
+PrintEnum .down[#bf3f3f].> OrganizationType
+PrintEnum .down[#bf3f3f].> Position
+PrintEnum .down[#bf3f3f].> Status
+Client ..> CreateWorker
+Client ..> Request
+Client .> Argument
+Client ..> Command
+Client .up.> CommandManager
+Client ..> Worker
+ClientMain .up.> CollectionManager
+ClientMain .up.> CommandManager
+ClientMain .> Client
+Server .left.> Request
+Server ..> FileManager
+Server ..> JacksonParser
+Server ..> Worker
+Server .> Argument
+Server ..> Command
+Server .up.> CommandManager
+ServerMain .up.> CollectionManager
+ServerMain .up.> CommandManager
+ServerMain ..> FileManager
+ServerMain .> Server
+
+ClearCommand -up[#purple]-|> Command
+HelpCommand -up[#purple]-|> Command
+AverageOfSalaryCommand -up[#purple]-|> Command
+ReplaceIfLoweCommand -up[#purple]-|> Command
+RemoveLowerKeyCommand -up[#purple]-|> Command
+RemoveKeyCommand -up[#purple]-|> Command
+RemoveGreaterCommand -up[#purple]-|> Command
+InsertCommand -up[#purple]-|> Command
+MinByStatusCommand -up[#purple]-|> Command
+PrintDescendingCommand -up[#purple]-|> Command
+ShowCommand -up[#purple]-|> Command
+UpdateCommand -up[#purple]-|> Command
+InfoCommand -up[#purple]-|> Command
+ExitCommand -up[#purple]-|> Command
+ExecuteScriptCommand -up[#purple]-|> Command
+
+Command .down.> Argument
+ClearCommand .down.> Argument
+HelpCommand .down.> Argument
+AverageOfSalaryCommand .down.> Argument
+ReplaceIfLoweCommand .down.> Argument
+RemoveLowerKeyCommand .down.> Argument
+RemoveKeyCommand .down.> Argument
+RemoveGreaterCommand .down.> Argument
+InsertCommand .down.> Argument
+MinByStatusCommand .down.> Argument
+PrintDescendingCommand .down.> Argument
+ShowCommand .down.> Argument
+UpdateCommand .down.> Argument
+InfoCommand .down.> Argument
+ExitCommand .down.> Argument
+ExecuteScriptCommand .down.> Argument
+
+Command .down[#9c8225].> Worker
+AverageOfSalaryCommand .down[#9c8225].> Worker
+ClearCommand .down[#9c8225].> Worker
+ExecuteScriptCommand .down[#9c8225].> Worker
+ExitCommand .down[#9c8225].> Worker
+HelpCommand .down[#9c8225].> Worker
+InfoCommand .down[#9c8225].> Worker
+InsertCommand .down[#9c8225].> Worker
+MinByStatusCommand .down[#9c8225].> Worker
+PrintDescendingCommand .down[#9c8225].> Worker
+RemoveGreaterCommand .down[#9c8225].> Worker
+RemoveKeyCommand .down[#9c8225].> Worker
+RemoveLowerKeyCommand .down[#9c8225].> Worker
+ReplaceIfLoweCommand .down[#9c8225].> Worker
+ShowCommand .down[#9c8225].> Worker
+UpdateCommand .down[#9c8225].> Worker
+
+AverageOfSalaryCommand .up[#5c5].> CollectionManager
+ClearCommand .up[#5c5].> CollectionManager
+ExecuteScriptCommand .up[#5c5].> CollectionManager
+InfoCommand .up[#5c5].> CollectionManager
+InsertCommand .up[#5c5].> CollectionManager
+MinByStatusCommand .up[#5c5].> CollectionManager
+PrintDescendingCommand .up[#5c5].> CollectionManager
+RemoveGreaterCommand .up[#5c5].> CollectionManager
+RemoveKeyCommand .up[#5c5].> CollectionManager
+RemoveLowerKeyCommand .up[#5c5].> CollectionManager
+ReplaceIfLoweCommand .up[#5c5].> CollectionManager
+ShowCommand .up[#5c5].> CollectionManager
+UpdateCommand .up[#5c5].> CollectionManager
+
+ExecuteScriptCommand .up[#55c].> CommandManager
+HelpCommand .up[#55c].> CommandManager
+InsertCommand .up[#55c].> CommandManager
+RemoveGreaterCommand .up[#55c].> CommandManager
+ReplaceIfLoweCommand .up[#55c].> CommandManager
+UpdateCommand .up[#55c].> CommandManager
+
+InsertCommand .> Calculate
+RemoveLowerKeyCommand .> Calculate
+ReplaceIfLoweCommand .> Calculate
+
+MinByStatusCommand .> WorkerStatusComparator
+PrintDescendingCommand .> DescendingWorkerComparator
+@enduml
