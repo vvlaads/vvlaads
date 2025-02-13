@@ -1,0 +1,10 @@
+<span>{{title}}</span>
+<br *ngIf="currentMode === 'mobile'">
+<br *ngIf="currentMode === 'tablet'">
+<span *ngFor="let value of values; let i = index">
+    <input type="radio" [name]="name" [value]="value" [checked]="selectedValue === value" (change)="selectValue(value)"
+        [ngClass]="currentMode">
+    <label [ngClass]="currentMode">{{value}}</label>
+
+    <br *ngIf="(i + 1) % countValue == 0">
+</span>

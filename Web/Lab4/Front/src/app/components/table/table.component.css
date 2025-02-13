@@ -1,0 +1,32 @@
+#result-table.mobile {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    width: 100%;
+    font-size: small;
+}
+
+#result-table.tablet {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    width: 100%;
+    font-size: medium;
+}
+
+#result-table.desktop {
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    width: 100%;
+    font-size: large;
+}
+
+#result-table th {
+    height: 40px;
+    background-color: #553d67;
+}
+
+#result-table td {
+    background-color: #99738e;
+}

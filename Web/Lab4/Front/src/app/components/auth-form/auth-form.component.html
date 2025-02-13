@@ -1,0 +1,22 @@
+<form id="authorization-form" (ngSubmit)="submit()" #loginForm="ngForm">
+    <table [ngClass]="currentMode">
+        <tr>
+            <th colspan="2">Авторизация/Регистрация</th>
+        </tr>
+        <tr>
+            <td><label id="login-label" [ngClass]="['label', currentMode]">Логин:</label></td>
+            <td id="td-for-login" [ngClass]="currentMode"><input name="login" [(ngModel)]="user.login" id="login"
+                    [ngClass]="['input', currentMode]" type="text" placeholder="Введите логин"></td>
+        </tr>
+        <tr>
+            <td><label id="password-label" [ngClass]="['label', currentMode]">Пароль:</label></td>
+            <td id="td-for-password" [ngClass]="currentMode"><input name="password" [(ngModel)]="user.password"
+                    id="password" [ngClass]="['input', currentMode]" type="password" placeholder="Введите пароль"></td>
+        </tr>
+        <tr>
+            <td colspan="2" id="button-cell" type="submit"><button [ngClass]="currentMode">Авторизоваться</button>
+                <div><app-error-message [message]="errorMessage" id="error-auth"></app-error-message></div>
+            </td>
+        </tr>
+    </table>
+</form>

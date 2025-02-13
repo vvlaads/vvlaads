@@ -1,0 +1,84 @@
+.mobile {
+    font-size: small;
+}
+
+.tablet {
+    font-size: medium;
+}
+
+.desktop {
+    font-size: x-large;
+}
+
+table {
+    width: 100%;
+}
+
+#image.desktop {
+    width: 40%;
+}
+
+p {
+    font-size: x-large;
+}
+
+p::before {
+    content: "❆ ";
+}
+
+button {
+    width: 33%;
+    color: white;
+    font-family: sans-serif;
+    font-size: x-large;
+    font-weight: bold;
+    border-radius: 10px;
+    height: 50px;
+    background-color: #f64c72;
+    border: 0;
+}
+
+button:hover {
+    background-color: #f2446a;
+}
+
+button:active {
+    background-color: #eb3d63;
+    transform: scale(0.98);
+}
+
+button.mobile {
+    width: 60%;
+    font-size: medium;
+}
+
+#before-table {
+    height: 50px;
+}
+
+#td-for-button {
+    text-align: center;
+}
+
+#td-for-exit-link.mobile {
+    font-size: large;
+    text-align: right;
+}
+
+#td-for-exit-link.tablet {
+    font-size: large;
+    text-align: right;
+}
+
+#td-for-exit-link.desktop {
+    font-size: x-large;
+    text-align: right;
+}
+
+#exit-link {
+    margin-right: 50px;
+}
+
+.error{
+    font-size: large;
+}

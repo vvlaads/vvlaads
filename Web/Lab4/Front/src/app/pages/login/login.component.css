@@ -1,0 +1,34 @@
+#auth-window.mobile {
+    padding-top: 10%;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#auth-window.tablet {
+    padding-top: 10%;
+    width: 80%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+#auth-window.desktop {
+    padding-top: 10%;
+    width: 60%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+
+#auth-form {
+    width: 100%;
+    height: 100%;
+}

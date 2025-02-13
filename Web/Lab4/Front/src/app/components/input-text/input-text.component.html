@@ -1,0 +1,5 @@
+<span>{{title}}</span>
+<br *ngIf="currentMode === 'mobile'">
+<br *ngIf="currentMode === 'tablet'">
+<input type="text" [name]="name" [placeholder]="placeholder" [(ngModel)]="value" (input)="onChange(value)"
+    [ngClass]="currentMode" (blur)="onTouched()">

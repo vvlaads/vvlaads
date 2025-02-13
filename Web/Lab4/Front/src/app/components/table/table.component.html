@@ -1,0 +1,20 @@
+<table id="result-table" [ngClass]="currentMode">
+  <thead>
+    <tr>
+      <th>X</th>
+      <th>Y</th>
+      <th>R</th>
+      <th>Результат</th>
+      <th>Время отправки</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of rows">
+      <td>{{ row.x }}</td>
+      <td>{{ row.y }}</td>
+      <td>{{ row.r }}</td>
+      <td>{{ row.result }}</td>
+      <td>{{ row.createdTime }}</td>
+    </tr>
+  </tbody>
+</table>

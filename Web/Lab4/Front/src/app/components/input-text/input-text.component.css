@@ -1,0 +1,22 @@
+span {
+    margin-right: 20px;
+}
+
+input.mobile {
+    width: 200px;
+    height: 30px;
+}
+
+input.tablet {
+    width: 300px;
+    height: 30px;
+}
+
+input.desktop {
+    width: 400px;
+    height: 30px;
+}
+
+input::placeholder {
+    font-style: italic;
+}
