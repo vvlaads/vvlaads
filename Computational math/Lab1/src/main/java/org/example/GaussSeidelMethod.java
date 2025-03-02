@@ -7,6 +7,7 @@ public class GaussSeidelMethod {
     private double epsilon;
     private int M;
     private double[][] matrix;
+    private double[][] normal;
 
     private double[] bValues;
     private double[] vector;
@@ -17,8 +18,24 @@ public class GaussSeidelMethod {
 
     public void calculate() {
         boolean sorted = sortMatrix();
-        if (!sorted) {
-            System.err.println("Невозможно достигнуть диагонального преобладания");
+        boolean diag = true;
+
+        for (int i = 0; i < n; i++) {
+            double row = 0;
+            double main = Math.abs(matrix[i][i]);
+            for (int j = 0; j < n; j++) {
+                row += Math.abs(matrix[i][j]);
+            }
+
+            if (main <= row - main) {
+                diag = false;
+                break;
+            }
+        }
+        if (!diag) {
+            System.out.println("Невозможно достигнуть диагонального преобладания");
+        } else {
+            System.out.println("Достигнуто диагональное преобладание");
         }
 
         for (int k = 1; k <= M; k++) {
@@ -29,7 +46,8 @@ public class GaussSeidelMethod {
                     System.err.println("Диагональный элемент равен нулю");
                     throw new RuntimeException();
                 }
-                nextVector[i] = (bValues[i] - sumOnCurrentIteration(i, nextVector) - sumOnLastIteration(i)) / (matrix[i][i]);
+                nextVector[i] = (bValues[i] - sumOnCurrentIteration(i, nextVector) - sumOnLastIteration(i))
+                        / (matrix[i][i]);
             }
 
             boolean ready = true;
@@ -40,6 +58,18 @@ public class GaussSeidelMethod {
             }
             vector = nextVector;
             if (ready) return;
+        }
+    }
+
+    public void normalMatrix() {
+        normal = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            double main = Math.abs(matrix[i][i]);
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    normal[i][j] = -matrix[i][j] / main;
+                }
+            }
         }
     }
 
@@ -91,11 +121,12 @@ public class GaussSeidelMethod {
     }
 
     public double getNorm() {
+        normalMatrix();
         double result = 0;
         for (int i = 0; i < n; i++) {
             double rowSum = 0;
             for (int j = 0; j < n; j++) {
-                rowSum += Math.abs(matrix[i][j]);
+                rowSum += Math.abs(normal[i][j]);
             }
             if (rowSum > result) {
                 result = rowSum;
@@ -145,6 +176,14 @@ public class GaussSeidelMethod {
 
     public void setMatrix(double[][] matrix) {
         this.matrix = matrix;
+    }
+
+    public double[][] getNormal() {
+        return normal;
+    }
+
+    public void setNormal(double[][] normal) {
+        this.normal = normal;
     }
 
     public double[] getBValues() {

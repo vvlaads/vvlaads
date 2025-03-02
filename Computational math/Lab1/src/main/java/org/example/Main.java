@@ -6,6 +6,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         InputModule inputModule = new InputModule();
+        OutputModule outputModule = new OutputModule();
         FileManager fileManager = new FileManager();
         Validator validator = new Validator();
 
@@ -103,28 +104,30 @@ public class Main {
                 vector[i] = Double.parseDouble(vectorComponents[i]);
             }
 
+            System.out.println("Введенная матрица:");
+            outputModule.printMatrix(matrix, n);
 
             GaussSeidelMethod method = new GaussSeidelMethod(n, epsilon, M, matrix, bValues, vector);
 
             method.calculate();
 
+            System.out.println("Отсортированная матрица:");
+            outputModule.printMatrix(method.getMatrix(), n);
+
             System.out.println("Норма матрицы: " + method.getNorm());
+
+            System.out.println("Нормализованная матрица:");
+            outputModule.printMatrix(method.getNormal(), method.getN());
 
             System.out.println("Вектор неизвестных:");
             double[] vec = method.getVector();
-            for (int i = 0; i < n; i++) {
-                System.out.print(vec[i] + " ");
-            }
-            System.out.println();
+            outputModule.printVector(vec, n);
 
             System.out.println("Количество итераций: " + method.getIterationCount());
 
             System.out.println("Вектор погрешностей:");
             double[] deltaVec = method.getDeltaVector();
-            for (int i = 0; i < n; i++) {
-                System.out.print(deltaVec[i] + " ");
-            }
-            System.out.println();
+            outputModule.printVector(deltaVec, n);
 
         } catch (NoSuchElementException e) {
             System.err.println("Ошибка ввода данных");
