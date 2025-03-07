@@ -1,6 +1,6 @@
 def half_division_method(a, b, epsilon, func):
     count_of_iteration = 0
-    for k in range(1000):
+    for k in range(1, 1000):
         count_of_iteration = k
         x1 = (a + b - epsilon) / 2
         x2 = (a + b + epsilon) / 2
@@ -24,7 +24,7 @@ def golden_ratio_method(a, b, epsilon, func):
     x2 = b + 0.618 * (b - a)
     y1 = func(x1)
     y2 = func(x2)
-    for k in range(1000):
+    for k in range(1, 1000):
         count_of_iteration = k + 1
         if y1 < y2:
             b = x2
@@ -46,7 +46,7 @@ def golden_ratio_method(a, b, epsilon, func):
 def chord_method(a, b, epsilon, func, func_df1):
     count_of_iteration = 0
     x = a - func_df1(a) / (func_df1(a) - func_df1(b)) * (a - b)
-    for k in range(1000):
+    for k in range(1, 1000):
         count_of_iteration = k
         f_df = func_df1(x)
         if abs(f_df) <= epsilon:
@@ -64,7 +64,7 @@ def newton_method(a, b, epsilon, func, func_df1, func_df2):
     count_of_iteration = 0
     x_old = a
     x = b
-    for k in range(1000):
+    for k in range(1, 1000):
         count_of_iteration = k
         x = x_old - func_df1(x_old) / func_df2(x_old)
         if abs(func_df1(x_old)) <= epsilon:
