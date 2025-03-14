@@ -44,7 +44,8 @@ def method(x1, delta_x, epsilon1, epsilon2, func):
         # Шаг 8
         if abs((f_min - f_average) / f_average) < epsilon1 and abs((x_min - x_average) / x_average) < epsilon2:
             break  # Конец
-        elif min(x1, x3) <= x_average <= max(x1, x3):
+        elif x1 <= x_average <= x3:
+            print(x1, x2)
             points = [x1, x2, x3, x_min, x_average]
             left_point = x1
             right_point = x3
