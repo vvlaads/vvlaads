@@ -1,3 +1,4 @@
+# Метод половинного деления
 def half_division_method(a, b, epsilon, func):
     count_of_iteration = 0
     for k in range(1, 1000):
@@ -18,14 +19,15 @@ def half_division_method(a, b, epsilon, func):
     return xm, ym, count_of_iteration
 
 
+# Метод золотого сечения
 def golden_ratio_method(a, b, epsilon, func):
-    count_of_iteration = 1
+    count_of_iteration = 0
     x1 = a + 0.382 * (b - a)
     x2 = b + 0.618 * (b - a)
     y1 = func(x1)
     y2 = func(x2)
     for k in range(1, 1000):
-        count_of_iteration = k + 1
+        count_of_iteration = k
         if y1 < y2:
             b = x2
             x2 = x1
@@ -43,6 +45,7 @@ def golden_ratio_method(a, b, epsilon, func):
     return x1, y1, count_of_iteration
 
 
+# Метод хорд
 def chord_method(a, b, epsilon, func, func_df1):
     count_of_iteration = 0
     x = a - func_df1(a) / (func_df1(a) - func_df1(b)) * (a - b)
@@ -60,6 +63,7 @@ def chord_method(a, b, epsilon, func, func_df1):
     return x, func(x), count_of_iteration
 
 
+# Метод Ньютона
 def newton_method(a, b, epsilon, func, func_df1, func_df2):
     count_of_iteration = 0
     x_old = a
