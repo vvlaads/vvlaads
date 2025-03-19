@@ -23,7 +23,6 @@ def chord_method(a, b, funcs, epsilon):
         number_of_iteration = k
         x = a - func(a) * (b - a) / (func(b) - func(a))
         if abs(func(x)) <= epsilon:
-            print("Длина интервала: ", abs(a - b))
             break
         if func(x) * func(b) < 0:
             a = x
@@ -82,8 +81,6 @@ def simple_iteration_method(a, b, funcs, epsilon):
     print("Лямбда: ", lam)
     phi_df1 = sp.diff(funcs[3].subs('lam', lam), x_symbol)
 
-    print(phi_df1.subs(x_symbol, a))
-    print(phi_df1.subs(x_symbol, b))
     max_phi_df1 = 0
     for element in section:
         value = abs(phi_df1.subs(x_symbol, element).evalf())
