@@ -1,8 +1,35 @@
-MAX_COUNT_OF_ITERATION = 100
+MAX_COUNT_OF_ITERATION = 20
+
+
+def is_defined(func, x):
+    try:
+        func(x)
+        return True
+    except (ValueError, ZeroDivisionError):
+        return False
+
+
+def fix_limits(func, a, b, epsilon):
+    delta = epsilon
+    if is_defined(func, a) and is_defined(func, b):
+        return a, b
+    while a <= b:
+        if not is_defined(func, a):
+            a += delta
+        if not is_defined(func, b):
+            b -= delta
+        if is_defined(func, a) and is_defined(func, b):
+            print("Изменены пределы интегрирования:")
+            print("Нижний предел:", a)
+            print("Верхний предел:", b)
+            return a, b
+    print("Ошибка вычисления функции на выбранном интервале")
+    exit(1)
 
 
 def rectangle_method_left(a, b, func, epsilon):
     n = 4
+    a, b = fix_limits(func, a, b, epsilon)
     h = (b - a) / n
     int_sum = 0
     x_i = a
@@ -28,6 +55,7 @@ def rectangle_method_left(a, b, func, epsilon):
 
 def rectangle_method_right(a, b, func, epsilon):
     n = 4
+    a, b = fix_limits(func, a, b, epsilon)
     h = (b - a) / n
     int_sum = 0
     x_i = a
@@ -53,6 +81,7 @@ def rectangle_method_right(a, b, func, epsilon):
 
 def rectangle_method_center(a, b, func, epsilon):
     n = 4
+    a, b = fix_limits(func, a, b, epsilon)
     h = (b - a) / n
     int_sum = 0
     x_i = a
@@ -80,6 +109,7 @@ def rectangle_method_center(a, b, func, epsilon):
 
 def trapezoid_method(a, b, func, epsilon):
     n = 4
+    a, b = fix_limits(func, a, b, epsilon)
     h = (b - a) / n
     int_sum = (func(a) + func(b)) / 2
     x_i = a
@@ -105,6 +135,7 @@ def trapezoid_method(a, b, func, epsilon):
 
 def simpson_method(a, b, func, epsilon):
     n = 4
+    a, b = fix_limits(func, a, b, epsilon)
     h = (b - a) / n
     int_sum = func(a) + func(b)
     part1 = 0
