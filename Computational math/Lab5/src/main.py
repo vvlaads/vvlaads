@@ -1,7 +1,7 @@
-from src.input import *
-from src.funcs import *
-from src.methods import *
-from src.validators import *
+from input import *
+from funcs import *
+from methods import *
+from validators import *
 import numpy as np
 import matplotlib.pyplot as plt
 
