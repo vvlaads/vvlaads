@@ -1,7 +1,7 @@
 from random import Random
 
 
-# Чтение файла
+# Чтение исходной матрицы из файла
 def read_file(filename):
     matrix = []
     count = 0
@@ -28,14 +28,21 @@ def get_sum_by_order(matrix, order):
 # Генерирует изначальную популяцию
 def generate_population(matrix, population_size):
     population = []
+
+    # Порядок городов 1, 2, 3, ...
     cities = []
     for i in range(1, len(matrix) + 1):
         cities.append(i)
 
     random = Random()
     for i in range(population_size):
-        route = cities[:]
+        route = cities[:]  # Копирование изначального порядка в новый маршрут
+
+        # Создаем уникальный маршрут, перемешивая элементы
         random.shuffle(route)
+        while route in population:
+            random.shuffle(route)
+
         population.append(route)
     return population
 
@@ -43,6 +50,8 @@ def generate_population(matrix, population_size):
 # Генерация потомков
 def generate_child(population):
     random = Random()
+
+    # Выбираем пару родителей
     first_idx = random.randint(0, len(population) - 1)
     second_idx = random.randint(0, len(population) - 1)
     while second_idx == first_idx:
@@ -51,8 +60,10 @@ def generate_child(population):
     first_parent = population[first_idx]
     second_parent = population[second_idx]
 
+    # Выбираем точку разрыва
     separate_dot = random.randint(1, len(first_parent) - 2)
 
+    # Создаем потомков
     first_child = first_parent[:separate_dot]
     for city in second_parent:
         if city not in first_child:
@@ -90,7 +101,7 @@ def sort_population(population, matrix):
     return sorted_population
 
 
-# Добавление потомков в таблицу популяции
+# Добавление потомков в таблицу популяции (если они уникальны)
 def append_children(first, second, population, matrix):
     size = len(population)
     if first not in population:
@@ -123,7 +134,7 @@ mut_prob = 0.01
 town_roads = read_file(name)
 town_roads_population = generate_population(town_roads, n)
 
-for number in range(1000):
+for number in range(10000):
     town_roads_population = iteration(town_roads_population, town_roads, mut_prob)
 
 print_population(town_roads_population, town_roads)
