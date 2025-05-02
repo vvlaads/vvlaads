@@ -55,7 +55,7 @@ def generate_population(matrix, population_size):
 def generate_child(population):
     random = Random()
 
-    # Выбираем пару родителей
+    # Выбираем двух разных родителей
     first_idx = random.randint(0, len(population) - 1)
     second_idx = random.randint(0, len(population) - 1)
     while second_idx == first_idx:
@@ -63,34 +63,33 @@ def generate_child(population):
     first_parent = population[first_idx]
     second_parent = population[second_idx]
 
-    # Выбираем две точки разрыва
     length = len(first_parent)
+
+    # Выбираем две точки разрыва
     start = random.randint(0, length - 2)
     end = random.randint(start + 1, length - 1)
 
-    # Копируем сегмент из первого родителя
+    # Потомок 1: середина от второго родителя, остальное от первого
     first_child = [None] * length
-    first_child[start:end + 1] = first_parent[start:end + 1]
+    first_child[start:end + 1] = second_parent[start:end + 1]
 
-    # Заполняем остальные элементы из второго родителя
-    pos = 0
-    for city in second_parent:
+    fill_index = (end + 1) % length
+    for i in range(end + 1, end + 1 + length):
+        city = first_parent[i % length]
         if city not in first_child:
-            # Найдём первую свободную позицию
-            while first_child[pos] is not None:
-                pos += 1
-            first_child[pos] = city
+            first_child[fill_index] = city
+            fill_index = (fill_index + 1) % length
 
-    # Аналогично создаём второго потомка
+    # Потомок 2: середина от первого родителя, остальное от второго
     second_child = [None] * length
-    second_child[start:end + 1] = second_parent[start:end + 1]
+    second_child[start:end + 1] = first_parent[start:end + 1]
 
-    pos = 0
-    for city in first_parent:
+    fill_index = (end + 1) % length
+    for i in range(end + 1, end + 1 + length):
+        city = second_parent[i % length]
         if city not in second_child:
-            while second_child[pos] is not None:
-                pos += 1
-            second_child[pos] = city
+            second_child[fill_index] = city
+            fill_index = (fill_index + 1) % length
 
     return first_child, second_child
 
