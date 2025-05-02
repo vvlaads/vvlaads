@@ -17,7 +17,10 @@ def read_file(filename):
 
 # Нахождение суммы маршрута
 def get_sum_by_order(matrix, order):
-    result = matrix[order[-1] - 1][order[0] - 1]  # возврат в начальный город
+    # Возврат в начальный город
+    result = matrix[order[-1] - 1][order[0] - 1]
+
+    # Считаем сумму маршрута
     for i in range(len(order) - 1):
         row = order[i] - 1
         column = order[i + 1] - 1
@@ -36,7 +39,8 @@ def generate_population(matrix, population_size):
 
     random = Random()
     for i in range(population_size):
-        route = cities[:]  # Копирование изначального порядка в новый маршрут
+        # Копирование изначального порядка в новый маршрут
+        route = cities[:]
 
         # Создаем уникальный маршрут, перемешивая элементы
         random.shuffle(route)
@@ -56,23 +60,37 @@ def generate_child(population):
     second_idx = random.randint(0, len(population) - 1)
     while second_idx == first_idx:
         second_idx = random.randint(0, len(population) - 1)
-
     first_parent = population[first_idx]
     second_parent = population[second_idx]
 
-    # Выбираем точку разрыва
-    separate_dot = random.randint(1, len(first_parent) - 2)
+    # Выбираем две точки разрыва
+    length = len(first_parent)
+    start = random.randint(0, length - 2)
+    end = random.randint(start + 1, length - 1)
 
-    # Создаем потомков
-    first_child = first_parent[:separate_dot]
+    # Копируем сегмент из первого родителя
+    first_child = [None] * length
+    first_child[start:end + 1] = first_parent[start:end + 1]
+
+    # Заполняем остальные элементы из второго родителя
+    pos = 0
     for city in second_parent:
         if city not in first_child:
-            first_child.append(city)
+            # Найдём первую свободную позицию
+            while first_child[pos] is not None:
+                pos += 1
+            first_child[pos] = city
 
-    second_child = second_parent[:separate_dot]
+    # Аналогично создаём второго потомка
+    second_child = [None] * length
+    second_child[start:end + 1] = second_parent[start:end + 1]
+
+    pos = 0
     for city in first_parent:
         if city not in second_child:
-            second_child.append(city)
+            while second_child[pos] is not None:
+                pos += 1
+            second_child[pos] = city
 
     return first_child, second_child
 
