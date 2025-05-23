@@ -43,219 +43,202 @@ def input_interval():
         line = input()
         digits = line.split()
         if len(digits) == 2:
-            a = digits[0]
-            b = digits[1]
+            start = digits[0]
+            end = digits[1]
             if is_float(digits[0]) and is_float(digits[1]):
-                a = float(a)
-                b = float(b)
-                if a != b:
-                    if a > b:
+                start = float(start)
+                end = float(end)
+                if start != end:
+                    if start > end:
                         print("Границы интервала изменены местами")
-                        a, b = b, a
-                    return a, b
+                        start, end = end, start
+                    return start, end
         print("Некорректный ввод данных, повторите ввод")
 
 
 # Ввод шага для интервала
-def input_step(a, b):
+def input_step(start, end):
     while True:
         print("Введите шаг h:")
-        h = input_float()
-        if h <= (b - a):
-            return h
-        print("Выбран слишком большой шаг, повторите ввод")
+        step = input_float()
+        if step <= 0:
+            print("Введите положительное значение!")
+        elif step > (end - start):
+            print("Выбран слишком большой шаг, повторите ввод")
+        else:
+            return step
 
 
 # Разбиение интервала с заданным шагом
-def split_interval_by_step(a, b, h):
+def split_interval_by_step(start, end, step):
     x_values = []
-    while a <= b:
-        x_values.append(a)
-        a += h
+    x_current = start
+    while x_current <= end:
+        x_values.append(x_current)
+        x_current += step
     return x_values
 
 
+# Ввод погрешности
+def input_epsilon():
+    while True:
+        print("Введите значение epsilon:")
+        eps = input_float()
+        if eps <= 0:
+            print("Введите положительное значение!")
+        elif eps < 1e-5:
+            print("Введено слишком маленькое число!")
+        else:
+            return eps
+
+
 # Получить точное решение
-def get_exact(y_start, x_values, exact_func):
+def get_exact(y0, x_values, exact_func):
     result = []
     x0 = x_values[0]
     for x in x_values:
-        result.append(exact_func(x, x0, y_start))
+        result.append(exact_func(x, x0, y0))
     return result
 
 
 # Вывод таблицы приближенных значений
-def print_table(x_values, euler=None, euler_err=None, runge=None, runge_err=None, milne=None, milne_err=None,
-                y_values=None):
+def print_table(name, x_values, values, errors, y_values):
     # Настройки ширины колонок
     widths = {
         "i": 5,
-        "x": 10,
-        "euler": 18,
-        "euler_err": 20,
-        "runge": 20,
-        "runge_err": 23,
-        "milne": 18,
-        "milne_err": 20,
-        "true": 18
+        "x_values": 10,
+        "values": 20,
+        "errors": 30,
+        "y_values": 20
     }
 
     # Формируем заголовок
-    header = f"{'i':^{widths['i']}} | {'x':^{widths['x']}} |"
-    if euler is not None:
-        header += f" {'Метод Эйлера':^{widths['euler']}} |"
-    if euler_err is not None:
-        header += f" {'Погрешность Эйлера':^{widths['euler_err']}} |"
-    if runge is not None:
-        header += f" {'Метод Рунге-Кутта':^{widths['runge']}} |"
-    if runge_err is not None:
-        header += f" {'Погрешность Рунге-Кутта':^{widths['runge_err']}} |"
-    if milne is not None:
-        header += f" {'Метод Милна':^{widths['milne']}} |"
-    if milne_err is not None:
-        header += f" {'Погрешность Милна':^{widths['milne_err']}} |"
-    if y_values is not None:
-        header += f" {'Точное значение':^{widths['true']}} |"
+    header = f"{'i':^{widths['i']}} | {'x':^{widths['x_values']}} |"
+    header += f" {'Метод ' + name:^{widths['values']}} |"
+    header += f" {'Погрешность':^{widths['errors']}} |"
+    header += f" {'Точное значение':^{widths['y_values']}} |"
     print(header)
     print("-" * len(header))
 
     # Формируем строки данных
     for i in range(len(x_values)):
-        row = f"{i:^{widths['i']}} | {x_values[i]:^{widths['x']}.4f} |"
-        if euler is not None:
-            row += f" {euler[i]:^{widths['euler']}.6f} |"
-        if euler_err is not None:
-            row += f" {euler_err[i]:^{widths['euler_err']}.6f} |"
-        if runge is not None:
-            row += f" {runge[i]:^{widths['runge']}.6f} |"
-        if runge_err is not None:
-            row += f" {runge_err[i]:^{widths['runge_err']}.6f} |"
-        if milne is not None:
-            row += f" {milne[i]:^{widths['milne']}.6f} |"
-        if milne_err is not None:
-            row += f" {milne_err[i]:^{widths['milne_err']}.6f} |"
-        if y_values is not None:
-            row += f" {y_values[i]:^{widths['true']}.6f} |"
+        row = f"{i:^{widths['i']}} | {x_values[i]:^{widths['x_values']}.4f} |"
+        row += f" {values[i]:^{widths['values']}.6f} |"
+        row += f" {errors[i]:^{widths['errors']}.6f} |"
+        row += f" {y_values[i]:^{widths['y_values']}.6f} |"
         print(row)
     print("-" * len(header))
 
 
-# Вычисление значений и погрешности одношаговым методом
-def calculate_one_step_method(name, method, p, a, b, h, y_start, func):
+# Вычисление одношагового метода
+def calculate_one_step_method(name, method, y0, x_values, func, p, eps):
+    print(f"Вычисление методом {name}")
     try:
-        x_values = split_interval_by_step(a, b, h)
-        y_h = method(y_start, x_values, func)
-        x_values = split_interval_by_step(a, b, h / 2)
-        y_h2 = method(y_start, x_values, func)
-        err = runge_rule(y_h, y_h2, p)
-        return y_h, err
+        x_result, y_result, error_result = runge_rule(method, y0, x_values, func, p, eps)
+        exact_y = get_exact(y0, x_result, exact_function)
+        print_table(name, x_result, y_result, error_result, exact_y)
+        print(f"Максимальная погрешность: {max(error_result)}")
+        return x_result, y_result, error_result, exact_y
     except ValueError:
-        print(f"Ошибка вычисления при использовании {name}")
-        return None, None
-    except ZeroDivisionError:
-        print(f"Ошибка деления на ноль при использовании {name}")
-        return None, None
+        print("Ошибка при вычислении функции")
+        return None, None, None, None
     except OverflowError:
-        print(f"Ошибка переполнения при использовании {name}")
-        return None, None
+        print("Ошибка переполнения значений")
+        return None, None, None, None
+    except ZeroDivisionError:
+        print("Ошибка, при вычислениях вызвано деление на 0")
+        return None, None, None, None
+
+
+# Вычисление многошагового метода
+def calculate_multi_step_method(name, method, y0, x_values, func, eps, exact_func):
+    print(f"Вычисление методом {name}")
+    try:
+        y_result = method(y0, x_values, func, eps)
+        exact_y = get_exact(y0[0], x_values, exact_func)
+        error_result = error_in_multi_step_method(exact_y, y_result)
+        accuracy = eps
+        while max(error_result) > eps:
+            print(f"Погрешность для метода Милна слишком большая: {max(error_result)} > {eps}")
+            x_values, y_result, error_result, exact_y = reduce_step_for_milne(method, y0, x_values, func, accuracy,
+                                                                              exact_func)
+            accuracy /= 10
+
+        print_table(name, x_values, y_result, error_result, exact_y)
+        print(f"Максимальная погрешность: {max(error_result)}")
+        return x_values, y_result, error_result, exact_y
+    except ValueError:
+        print("Ошибка при вычислении функции")
+        return None, None, None, None
+    except OverflowError:
+        print("Ошибка переполнения значений")
+        return None, None, None, None
+    except ZeroDivisionError:
+        print("Ошибка, при вычислениях вызвано деление на 0")
+        return None, None, None, None
 
 
 # Вычисление погрешности для многошагового метода
-def error_in_multi_step_method(y_values, result):
+def error_in_multi_step_method(y_values, values):
     errors = []
-    if y_values is None or result is None:
-        return None
     for i in range(len(y_values)):
-        errors.append(abs(y_values[i] - result[i]))
+        errors.append(abs(y_values[i] - values[i]))
     return errors
 
 
-# Проверка, удовлетворяет ли решение заданной точности
-def check_accuracy(errors, eps):
-    if errors is None:
-        return False
-    for i in range(len(errors)):
-        if abs(errors[i]) > eps:
-            return False
-    return True
+# Уменьшение шага для метода Милна при большой погрешности
+def reduce_step_for_milne(method, y0, x_values, func, eps, exact_func):
+    print("Пересчет методом Рунге-Кутта:")
+    x, y, err = runge_rule(runge_kutta_method, y0[0], x_values, func, 4, eps / 10)
+    y_result = method(y[:4], x, func, eps)
+    exact_y = get_exact(y0[0], x_values, exact_func)
+    error_result = error_in_multi_step_method(exact_y, y_result)
+    return x, y, error_result, exact_y
 
 
 # === MAIN ===
 # Выбор функции
 function, exact_function = select_one("Выберите одну из предложенных функций (Введите цифру)", get_funcs())
 
-# Ввод исходных данных
-start, end = input_interval()
-step = input_step(start, end)
-x_array = split_interval_by_step(start, end, step)
+# === Ввод исходных данных ===
+a, b = input_interval()
+h = input_step(a, b)
+x_array = split_interval_by_step(a, b, h)
 
 print("Значение y0:")
-y0 = input_float()
+y_start = input_float()
 
-print("Значение epsilon:")
-epsilon = input_float()
+epsilon = input_epsilon()
 
-# Вычисления
-try:
-    y_array = get_exact(y0, x_array, exact_function)
-except ValueError:
-    print(f"Ошибка вычисления при при вычислении точного решения.")
-    y_array = None
-except ZeroDivisionError:
-    print("Ошибка: деление на ноль при вычислении точного решения.")
-    y_array = None
-except OverflowError:
-    print("Ошибка: переполнение при вычислении точного решения.")
-    y_array = None
-
-result_1, err_1 = calculate_one_step_method("Метод Эйлера", euler_method, 1, start, end, step, y0, function)
-
-result_2, err_2 = calculate_one_step_method("Метод Рунге-Кутта", runge_kutta_method, 4, start, end, step,
-                                            y0, function)
-
-if result_2 and len(result_2) >= 4:
-    try:
-        result_3 = milne_method(result_2[:4], x_array, function)
-    except ValueError:
-        print(f"Ошибка вычисления при использовании Метода Милна")
-        result_3 = None
-    except ZeroDivisionError:
-        print(f"Ошибка деления на ноль при использовании Метода Милна")
-        result_3 = None
-    except OverflowError:
-        print(f"Ошибка переполнения при использовании Метода Милна")
-        result_3 = None
+# === Вычисления ===
+x_euler, y_euler, error_euler, exact_y_euler = calculate_one_step_method("Эйлера", euler_method,
+                                                                         y_start, x_array, function, 1, epsilon)
+x_runge, y_runge, error_runge, exact_y_runge = calculate_one_step_method("Рунге-Кутта", runge_kutta_method,
+                                                                         y_start, x_array, function, 4, epsilon)
+if y_runge is not None and len(y_runge) >= 4:
+    x_milne, y_milne, error_milne, exact_y_milne = calculate_multi_step_method("Милна", milne_method,
+                                                                               y_runge[:4], x_runge, function, epsilon,
+                                                                               exact_function)
+elif y_euler is not None and len(y_euler) >= 4:
+    x_milne, y_milne, error_milne, exact_y_milne = calculate_multi_step_method("Милна", milne_method,
+                                                                               y_euler[:4], x_euler, function, epsilon,
+                                                                               exact_function)
 else:
-    print("Для метода Милна требуется минимум 4 точки, полученные методом Рунге-Кутта")
-    result_3 = None
-err_3 = error_in_multi_step_method(y_array, result_3)
-
-# Проверяем погрешность методов с введенной
-if check_accuracy(err_1, epsilon):
-    print(f"Метод Эйлера удовлетворяет заданной точности {epsilon}")
-else:
-    print(f"Метод Эйлера не удовлетворяет заданной точности {epsilon}")
-if check_accuracy(err_2, epsilon):
-    print(f"Метод Рунге-Кутта удовлетворяет заданной точности {epsilon}")
-else:
-    print(f"Метод Рунге-Кутта не удовлетворяет заданной точности {epsilon}")
-if check_accuracy(err_3, epsilon):
-    print(f"Метод Милна удовлетворяет заданной точности {epsilon}")
-else:
-    print(f"Метод Милна не удовлетворяет заданной точности {epsilon}")
-
-# Вывод таблицы
-print_table(x_array, result_1, err_1, result_2, err_2, result_3, err_3, y_array)
+    print("Нельзя вычислить методом Милна, так как недостаточно точек")
+    x_milne, y_milne, error_milne, exact_y_milne = None, None, None, None
 
 # Вывод графиков
-if y_array is not None:
-    plt.plot(x_array, y_array, label="Точное значение")
-if result_1 is not None:
-    plt.plot(x_array, result_1, label="Метод Эйлера", linestyle="--")
-if result_2 is not None:
-    plt.plot(x_array, result_2, label="Метод Рунге-Кутта", linestyle="--")
-if result_3 is not None:
-    plt.plot(x_array, result_3, label="Метод Милна", linestyle="--")
-plt.legend()
-plt.grid(True)
-plt.show()
+if x_euler is not None:
+    plt.plot(x_euler, exact_y_euler, label="Точное значение")
+    plt.plot(x_euler, y_euler, label="Метод Эйлера", linestyle="--", color="red")
+if x_runge is not None:
+    plt.plot(x_runge, y_runge, label="Метод Рунге-Кутта 4-го порядка", linestyle="--", color="orange")
+if x_milne is not None:
+    plt.plot(x_milne, y_milne, label="Метод Милна", linestyle="--", color="green")
+
+if x_euler is not None or x_runge is not None or x_milne is not None:
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+else:
+    print("Невозможно построить графики")
