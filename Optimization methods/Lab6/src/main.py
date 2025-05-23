@@ -60,38 +60,45 @@ def generate_child(population):
     second_idx = random.randint(0, len(population) - 1)
     while second_idx == first_idx:
         second_idx = random.randint(0, len(population) - 1)
-    first_parent = population[first_idx]
-    second_parent = population[second_idx]
+    parent1 = population[first_idx]
+    parent2 = population[second_idx]
 
-    length = len(first_parent)
+    length = len(parent1)
 
-    # Выбираем две точки разрыва
+    # Выбираем две точки разрыва (start < end)
     start = random.randint(0, length - 2)
     end = random.randint(start + 1, length - 1)
 
-    # Потомок 1: середина от второго родителя, остальное от первого
-    first_child = [None] * length
-    first_child[start:end + 1] = second_parent[start:end + 1]
+    # Функция для создания потомка
+    def create_child(p_main, p_other, start, end):
+        child = [None] * length
 
-    fill_index = (end + 1) % length
-    for i in range(end + 1, end + 1 + length):
-        city = first_parent[i % length]
-        if city not in first_child:
-            first_child[fill_index] = city
-            fill_index = (fill_index + 1) % length
+        # 1. Копируем сегмент из другого родителя
+        child[start:end + 1] = p_other[start:end + 1]
 
-    # Потомок 2: середина от первого родителя, остальное от второго
-    second_child = [None] * length
-    second_child[start:end + 1] = first_parent[start:end + 1]
+        # 2. Заполняем остальные позиции из основного родителя
 
-    fill_index = (end + 1) % length
-    for i in range(end + 1, end + 1 + length):
-        city = second_parent[i % length]
-        if city not in second_child:
-            second_child[fill_index] = city
-            fill_index = (fill_index + 1) % length
+        # Начинаем со второго элемента сегмента основного родителя
+        current_pos = (start + 1) % length  # Стартовая позиция в p_main
 
-    return first_child, second_child
+        # Последовательно заполняем все None-позиции
+        for i in range(length):
+            if child[i] is None:
+                while True:
+                    city = p_main[current_pos]
+                    if city not in child:
+                        child[i] = city
+                        current_pos = (current_pos + 1) % length
+                        break
+                    current_pos = (current_pos + 1) % length
+        return child
+
+    # Первый потомок: основной родитель parent1, сегмент из parent2
+    child1 = create_child(parent1, parent2, start, end)
+
+    # Второй потомок: основной родитель parent2, сегмент из parent1
+    child2 = create_child(parent2, parent1, start, end)
+    return child1, child2
 
 
 # Мутация потомков
@@ -151,7 +158,7 @@ mut_prob = 0.01
 town_roads = read_file(name)
 town_roads_population = generate_population(town_roads, n)
 
-for number in range(10000):
+for number in range(100):
     town_roads_population = iteration(town_roads_population, town_roads, mut_prob)
 
 print_population(town_roads_population, town_roads)
