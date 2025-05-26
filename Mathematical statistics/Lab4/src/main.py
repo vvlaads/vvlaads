@@ -66,10 +66,15 @@ df_within = I - J  # Степени свободы знаменателя
 
 f_critical = f.ppf(1 - alpha, df_between, df_within)
 
+# Вычисление p-value
+p_value = 1 - f.cdf(F, df_between, df_within)
+
 # Проверка гипотезы
 if F < f_critical:
     print(f"F = {F:.4f} < F-критическое = {f_critical:.4f}")
+    print(f"p-value = {p_value:.10f}")
     print("Не отвергаем гипотезу H0: средние значения площадей одинаковы")
 else:
     print(f"F = {F:.4f} ≥ F-критическое = {f_critical:.4f}")
+    print(f"p-value = {p_value:.10f}")
     print("Отвергаем гипотезу H0: средние значения площадей различаются")
