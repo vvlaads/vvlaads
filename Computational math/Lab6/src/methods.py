@@ -64,6 +64,7 @@ def runge_rule(method, y0, x_values, func, p, eps):
         if error > eps:
             print("-" * 100)
             print(f"Уменьшен шаг с {step} до {half_step}")
+            print("-" * 100)
             return runge_rule(method, y0, x_h2, func, p, eps)
         errors.append(error)
         h2_index += 2

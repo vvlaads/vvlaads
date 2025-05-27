@@ -132,12 +132,15 @@ def print_table(name, x_values, values, errors, y_values):
 
 # Вычисление одношагового метода
 def calculate_one_step_method(name, method, y0, x_values, func, p, eps):
+    print("*" * 100)
     print(f"Вычисление методом {name}")
+    print("*" * 100)
     try:
         x_result, y_result, error_result = runge_rule(method, y0, x_values, func, p, eps)
         exact_y = get_exact(y0, x_result, exact_function)
         print_table(name, x_result, y_result, error_result, exact_y)
         print(f"Максимальная погрешность: {max(error_result)}")
+        print("-" * 100)
         return x_result, y_result, error_result, exact_y
     except ValueError:
         print("Ошибка при вычислении функции")
@@ -152,20 +155,25 @@ def calculate_one_step_method(name, method, y0, x_values, func, p, eps):
 
 # Вычисление многошагового метода
 def calculate_multi_step_method(name, method, y0, x_values, func, eps, exact_func):
+    print("*" * 100)
     print(f"Вычисление методом {name}")
+    print("*" * 100)
     try:
         y_result = method(y0, x_values, func, eps)
         exact_y = get_exact(y0[0], x_values, exact_func)
         error_result = error_in_multi_step_method(exact_y, y_result)
         accuracy = eps
         while max(error_result) > eps:
+            print("-" * 100)
             print(f"Погрешность для метода Милна слишком большая: {max(error_result)} > {eps}")
+            print("-" * 100)
             x_values, y_result, error_result, exact_y = reduce_step_for_milne(method, y0, x_values, func, accuracy,
                                                                               exact_func)
             accuracy /= 10
 
         print_table(name, x_values, y_result, error_result, exact_y)
         print(f"Максимальная погрешность: {max(error_result)}")
+        print("-" * 100)
         return x_values, y_result, error_result, exact_y
     except ValueError:
         print("Ошибка при вычислении функции")
@@ -188,8 +196,18 @@ def error_in_multi_step_method(y_values, values):
 
 # Уменьшение шага для метода Милна при большой погрешности
 def reduce_step_for_milne(method, y0, x_values, func, eps, exact_func):
+    print("*" * 100)
     print("Пересчет методом Рунге-Кутта:")
-    x, y, err = runge_rule(runge_kutta_method, y0[0], x_values, func, 4, eps / 10)
+    print("*" * 100)
+
+    divider = 10
+    while True:
+        x, y, err = runge_rule(runge_kutta_method, y0[0], x_values, func, 4, eps / divider)
+        if len(y) >= 4:
+            break
+        else:
+            divider /= 10
+
     y_result = method(y[:4], x, func, eps)
     exact_y = get_exact(y0[0], x_values, exact_func)
     error_result = error_in_multi_step_method(exact_y, y_result)
