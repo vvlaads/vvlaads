@@ -42,73 +42,78 @@ def runge_kutta_method(y0, x_values, func):
 
 # Правило Рунге
 def runge_rule(method, y0, x_values, func, p, eps):
+    errors = []
+
     x_h = x_values
     y_h = method(y0, x_h, func)
+    step = x_values[1] - x_values[0]
 
-    x_h2 = reduce_step_in_array(x_values)
+    x_h2 = reduce_step_in_array(x_h)
     y_h2 = method(y0, x_h2, func)
-    h2_index = 0
-    errors = []
-    step = x_h[1] - x_h[0]
     half_step = x_h2[1] - x_h2[0]
-    for i in range(len(y_h)):
-        error = abs(y_h[i] - y_h2[h2_index]) / (2 ** p - 1)
-        print(f"Проверка точки {x_h[i]}:")
-        print(f"  Значение при шаге {step}: y = {y_h[i]}")
-        print(f"  Значение при шаге {half_step}: y = {y_h2[h2_index]}")
-        if error > eps:
-            symbol = ">"
-        else:
-            symbol = "<="
-        print(f"  Погрешность: {error:.6f} {symbol} {eps}")
-        if error > eps:
-            print("-" * 100)
-            print(f"Уменьшен шаг с {step} до {half_step}")
-            print("-" * 100)
-            return runge_rule(method, y0, x_h2, func, p, eps)
+
+    h_index = 1
+    h2_index = 2
+
+    for i in range(1, len(x_values)):
+        print(f"Проверка точки {x_values[i]}:")
+        print(f"  Значение y при шаге {step}: {y_h[h_index]}")
+        print(f"  Значение y при шаге {half_step}: {y_h2[h2_index]}")
+        error = abs(y_h[i * h_index] - y_h2[i * h2_index]) / (2 ** p - 1)
+        while error > eps and step > 1e-5:
+            print(f"  Погрешность {error} > {eps}")
+            print(f" Уменьшаем шаг до {half_step}")
+            h_index *= 2
+            h2_index *= 2
+            x_h = x_h2
+            y_h = y_h2
+            x_h2 = reduce_step_in_array(x_h)
+            y_h2 = method(y0, x_h2, func)
+            step = half_step
+            half_step = x_h2[1] - x_h2[0]
+            error = abs(y_h[h_index] - y_h2[h2_index]) / (2 ** p - 1)
+            print(f"  Значение y при шаге {step}: {y_h[h_index]}")
+            print(f"  Значение y при шаге {half_step}: {y_h2[h2_index]}")
+        if error < eps:
+            print(f"  Погрешность {error} <= {eps}")
+        elif step <= 1e-5:
+            print(f"Уменьшение шага прекращено")
+
+    y_result = []
+    for i in range(len(x_values)):
+        y_result.append(y_h[i * h_index])
+        error = abs(y_h[i * h_index] - y_h2[i * h2_index]) / (2 ** p - 1)
         errors.append(error)
-        h2_index += 2
-    print("-" * 100)
-    print(f"Найден нужный шаг: {step}")
-    print("-" * 100)
-    return x_h, y_h, errors
+    return y_result, errors
 
 
 # Метод Милна
 def milne_method(y_start, x_values, func, eps):
     h = x_values[1] - x_values[0]
-    y_values = y_start.copy()
+    result = y_start.copy()
 
     for i in range(4, len(x_values)):
         # Прогноз
-        y_predicated = y_values[i - 4] + (4 * h / 3) * (
-                2 * func(x_values[i - 3], y_values[i - 3]) -
-                func(x_values[i - 2], y_values[i - 2]) +
-                2 * func(x_values[i - 1], y_values[i - 1])
+        y_predicated = result[i - 4] + (4 * h / 3) * (
+                2 * func(x_values[i - 3], result[i - 3]) -
+                func(x_values[i - 2], result[i - 2]) +
+                2 * func(x_values[i - 1], result[i - 1])
         )
 
         # Коррекция
         y_prev = y_predicated
         y_corr = y_predicated
         for j in range(100):
-            y_corr = y_values[i - 2] + (h / 3) * (
-                    func(x_values[i - 2], y_values[i - 2]) +
-                    4 * func(x_values[i - 1], y_values[i - 1]) +
+            y_corr = result[i - 2] + (h / 3) * (
+                    func(x_values[i - 2], result[i - 2]) +
+                    4 * func(x_values[i - 1], result[i - 1]) +
                     func(x_values[i], y_prev)
             )
             error = abs(y_corr - y_prev)
-            print(f"Коррекция в точке {x_values[i]}:")
-            print(f"  Предыдущее значение: y = {y_prev}")
-            print(f"  Значение после коррекции: y = {y_corr}")
-            if error > eps:
-                symbol = ">"
-            else:
-                symbol = "<="
-            print(f"  Погрешность: {error:.6f} {symbol} {eps}")
             if error < eps:
                 break
             y_prev = y_corr
 
-        y_values.append(y_corr)
+        result.append(y_corr)
 
-    return y_values
+    return result

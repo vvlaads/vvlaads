@@ -94,11 +94,21 @@ def input_epsilon():
 
 # Получить точное решение
 def get_exact(y0, x_values, exact_func):
-    result = []
-    x0 = x_values[0]
-    for x in x_values:
-        result.append(exact_func(x, x0, y0))
-    return result
+    try:
+        result = []
+        x0 = x_values[0]
+        for x in x_values:
+            result.append(exact_func(x, x0, y0))
+        return result
+    except ValueError:
+        print("Ошибка при вычислении функции")
+        return None
+    except OverflowError:
+        print("Ошибка переполнения значений")
+        return None
+    except ZeroDivisionError:
+        print("Ошибка, при вычислениях вызвано деление на 0")
+        return None
 
 
 # Вывод таблицы приближенных значений
@@ -131,59 +141,48 @@ def print_table(name, x_values, values, errors, y_values):
 
 
 # Вычисление одношагового метода
-def calculate_one_step_method(name, method, y0, x_values, func, p, eps):
+def calculate_one_step_method(name, method, y0, x_values, func, p, eps, exact_y):
     print("*" * 100)
     print(f"Вычисление методом {name}")
     print("*" * 100)
     try:
-        x_result, y_result, error_result = runge_rule(method, y0, x_values, func, p, eps)
-        exact_y = get_exact(y0, x_result, exact_function)
-        print_table(name, x_result, y_result, error_result, exact_y)
+        y_result, error_result = runge_rule(method, y0, x_values, func, p, eps)
+        print_table(name, x_values, y_result, error_result, exact_y)
         print(f"Максимальная погрешность: {max(error_result)}")
         print("-" * 100)
-        return x_result, y_result, error_result, exact_y
+        return y_result, error_result
     except ValueError:
         print("Ошибка при вычислении функции")
-        return None, None, None, None
+        return None, None
     except OverflowError:
         print("Ошибка переполнения значений")
-        return None, None, None, None
+        return None, None
     except ZeroDivisionError:
         print("Ошибка, при вычислениях вызвано деление на 0")
-        return None, None, None, None
+        return None, None
 
 
 # Вычисление многошагового метода
-def calculate_multi_step_method(name, method, y0, x_values, func, eps, exact_func):
+def calculate_multi_step_method(name, method, y0, x_values, func, eps, exact_y):
     print("*" * 100)
     print(f"Вычисление методом {name}")
     print("*" * 100)
     try:
         y_result = method(y0, x_values, func, eps)
-        exact_y = get_exact(y0[0], x_values, exact_func)
         error_result = error_in_multi_step_method(exact_y, y_result)
-        accuracy = eps
-        while max(error_result) > eps:
-            print("-" * 100)
-            print(f"Погрешность для метода Милна слишком большая: {max(error_result)} > {eps}")
-            print("-" * 100)
-            x_values, y_result, error_result, exact_y = reduce_step_for_milne(method, y0, x_values, func, accuracy,
-                                                                              exact_func)
-            accuracy /= 10
-
         print_table(name, x_values, y_result, error_result, exact_y)
         print(f"Максимальная погрешность: {max(error_result)}")
         print("-" * 100)
-        return x_values, y_result, error_result, exact_y
+        return y_result, error_result
     except ValueError:
         print("Ошибка при вычислении функции")
-        return None, None, None, None
+        return None, None
     except OverflowError:
         print("Ошибка переполнения значений")
-        return None, None, None, None
+        return None, None
     except ZeroDivisionError:
         print("Ошибка, при вычислениях вызвано деление на 0")
-        return None, None, None, None
+        return None, None
 
 
 # Вычисление погрешности для многошагового метода
@@ -192,26 +191,6 @@ def error_in_multi_step_method(y_values, values):
     for i in range(len(y_values)):
         errors.append(abs(y_values[i] - values[i]))
     return errors
-
-
-# Уменьшение шага для метода Милна при большой погрешности
-def reduce_step_for_milne(method, y0, x_values, func, eps, exact_func):
-    print("*" * 100)
-    print("Пересчет методом Рунге-Кутта:")
-    print("*" * 100)
-
-    divider = 10
-    while True:
-        x, y, err = runge_rule(runge_kutta_method, y0[0], x_values, func, 4, eps / divider)
-        if len(y) >= 4:
-            break
-        else:
-            divider /= 10
-
-    y_result = method(y[:4], x, func, eps)
-    exact_y = get_exact(y0[0], x_values, exact_func)
-    error_result = error_in_multi_step_method(exact_y, y_result)
-    return x, y, error_result, exact_y
 
 
 # === MAIN ===
@@ -229,34 +208,34 @@ y_start = input_float()
 epsilon = input_epsilon()
 
 # === Вычисления ===
-x_euler, y_euler, error_euler, exact_y_euler = calculate_one_step_method("Эйлера", euler_method,
-                                                                         y_start, x_array, function, 1, epsilon)
-x_runge, y_runge, error_runge, exact_y_runge = calculate_one_step_method("Рунге-Кутта", runge_kutta_method,
-                                                                         y_start, x_array, function, 4, epsilon)
-if y_runge is not None and len(y_runge) >= 4:
-    x_milne, y_milne, error_milne, exact_y_milne = calculate_multi_step_method("Милна", milne_method,
-                                                                               y_runge[:4], x_runge, function, epsilon,
-                                                                               exact_function)
-elif y_euler is not None and len(y_euler) >= 4:
-    x_milne, y_milne, error_milne, exact_y_milne = calculate_multi_step_method("Милна", milne_method,
-                                                                               y_euler[:4], x_euler, function, epsilon,
-                                                                               exact_function)
+y_exact = get_exact(y_start, x_array, exact_function)
+if y_exact is None:
+    print("Не удалось получить точное решение")
 else:
-    print("Нельзя вычислить методом Милна, так как недостаточно точек")
-    x_milne, y_milne, error_milne, exact_y_milne = None, None, None, None
+    y_euler, error_euler = calculate_one_step_method("Эйлера", euler_method,
+                                                     y_start, x_array, function, 1, epsilon, y_exact)
+    y_runge, error_runge = calculate_one_step_method("Рунге-Кутта", runge_kutta_method,
+                                                     y_start, x_array, function, 4, epsilon, y_exact)
+    if y_runge is not None and len(y_runge) >= 4:
+        y_milne, error_milne = calculate_multi_step_method("Милна", milne_method,
+                                                           y_runge[:4], x_array, function, epsilon, y_exact)
+    else:
+        print("Нельзя вычислить методом Милна, так как недостаточно точек")
+        y_milne, error_milne = None, None
 
-# Вывод графиков
-if x_euler is not None:
-    plt.plot(x_euler, exact_y_euler, label="Точное значение")
-    plt.plot(x_euler, y_euler, label="Метод Эйлера", linestyle="--", color="red")
-if x_runge is not None:
-    plt.plot(x_runge, y_runge, label="Метод Рунге-Кутта 4-го порядка", linestyle="--", color="orange")
-if x_milne is not None:
-    plt.plot(x_milne, y_milne, label="Метод Милна", linestyle="--", color="green")
+    # Вывод графиков
+    if y_exact is not None:
+        plt.plot(x_array, y_exact, label="Точное значение", color="black")
+    if y_euler is not None:
+        plt.plot(x_array, y_euler, label="Метод Эйлера", linestyle="--", color="red")
+    if y_runge is not None:
+        plt.plot(x_array, y_runge, label="Метод Рунге-Кутта 4-го порядка", linestyle="--", color="blue")
+    if y_milne is not None:
+        plt.plot(x_array, y_milne, label="Метод Милна", linestyle="--", color="green")
 
-if x_euler is not None or x_runge is not None or x_milne is not None:
-    plt.legend()
-    plt.grid(True)
-    plt.show()
-else:
-    print("Невозможно построить графики")
+    if y_exact is not None or y_euler is not None or y_runge is not None or y_milne is not None:
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+    else:
+        print("Невозможно построить графики")
