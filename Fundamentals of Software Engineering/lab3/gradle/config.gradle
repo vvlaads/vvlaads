@@ -1,0 +1,267 @@
+ext {
+    taskGroup = "lab3" //Группа задач для лабораторной
+
+    appGroup = "application" //Группа задач для управление backend и frontend
+
+    // Настройки для задачи compile
+    compile = [
+            description     : "Компиляция исходных кодов проекта.",
+            completedMessage: "Компиляция завершена."
+    ]
+
+    // Настройки для задачи scp
+    scp = [
+            description     : "Перемещение собранного проекта по scp на выбранный сервер по завершению сборки." +
+                    "Предварительно необходимо выполнить сборку проекта (цель build)",
+            libDir          : "libs",
+            war             : ".war",
+            scp             : "scp",
+            host            : "s355273@helios.se.ifmo.ru",
+            path            : "~/test/path/",
+            port            : "2222",
+            warNotFound     : "Не найден WAR файл!",
+            completedMessage: "Передача завершена"
+    ]
+
+    // Настройки для задачи doc
+    doc = [
+            description     : "Добавление в MANIFEST.MF MD5 и SHA-1 файлов проекта, а также генерация и добавление " +
+                    "в архив javadoc по всем классам проекта.",
+            mdAlgorithm     : "MD5",
+            shaAlgorithm    : "SHA-1",
+            manifestDir     : "tmp/manifest",
+            manifestName    : "MANIFEST.MF",
+            warUnpackedDir  : "tmp/war-content",
+            metaInfDir      : "META-INF",
+            manifestText    : "Manifest-Version: 1.0\nMD5-Hash: %s\nSHA1-Hash: %s",
+            completedMessage: "WAR обновлён: Javadoc включён, хеши добавлены в MANIFEST.MF"
+    ]
+
+    // Настройки для задачи xml
+    xml = [
+            description     : "Валидация всех xml-файлов в проекте.",
+            mask            : "**/*.xml",
+            goodFileMessage : "XML OK: %s",
+            badFileMessage  : "XML ERROR: %s\n%s:",
+            completedMessage: "Все XML файлы валидны",
+            errorMessage    : "Обнаружены ошибки в %d XML-файлах:\n"
+    ]
+
+    // Настройки для задачи music
+    music = [
+            description: "Воспроизведение музыки по завершению сборки (цель build).",
+            path       : "src/main/resources/sound.wav"
+    ]
+
+    // Настройки для задачи native2ascii
+    native2ascii = [
+            description     : "Преобразование native2ascii для копий файлов локализации " +
+                    "(для тестирования сценария все строковые параметры необходимо вынести из классов в " +
+                    "файлы локализации).",
+            sourceDir       : "src/main/resources",
+            fileMask        : "messages_*.properties",
+            outputDir       : "resources",
+            commandName     : "native2ascii",
+            errorMessage    : "Ошибка выполнения команды",
+            completedMessage: "Преобразован:  %s"
+    ]
+
+    // Настройки для задачи diff
+    diff = [
+            description      : "Осуществляет проверку состояния рабочей копии, и, если изменения не касаются " +
+                    "классов, указанных в файле параметров выполняет commit в репозиторий git.",
+            exludedProperties: "excluded.properties",
+            git              : "git",
+            diff             : "diff",
+            diffOptions      : " --name-only",
+            diffError        : "Ошибка выполнения команды git diff",
+            add              : "add",
+            addError         : "Ошибка при выполнении git add",
+            commit           : "commit",
+            commitOptions    : " -m",
+            commitMessage    : "AutoCommit",
+            commitError      : "Ошибка при выполнении git commit",
+            badFileMessage   : "Коммит не выполнен: обнаружен исключённый файл %s",
+            noChanges        : "Нет подходящих изменений для коммита.",
+            completedMessage : "Коммит успешно выполнен: %d файл(ов) добавлено."
+    ]
+
+    // Настройки для задачи alt
+    alt = [
+            description     : "Создаёт альтернативную версию программы с измененными именами переменных и классов " +
+                    "(используя задание replace/replaceregexp в файлах параметров) и упаковывает её в jar-архив. " +
+                    "Для создания jar-архива использует цель build.",
+            replaceFile     : "replace.properties",
+            src             : "alt-src",
+            classes         : "alt-classes",
+            source          : "src/main",
+            altWarName      : "alt-version.war",
+            completedMessage: "Альтернативный WAR создан: %s",
+            mask            : "**/*.java",
+            java            : ".java",
+            libs            : "libs"
+    ]
+
+    // Настройки для задачи history
+    history = [
+            description     : "Если проект не удаётся скомпилировать (цель compile), загружается предыдущая версия " +
+                    "из репозитория git. Операция повторяется до тех пор, пока проект не удастся собрать, " +
+                    "либо не будет получена самая первая ревизия из репозитория. Если такая ревизия найдена, " +
+                    "то формируется файл, содержащий результат операции diff для всех файлов, измёненных в ревизии, " +
+                    "следующей непосредственно за последней работающей.",
+            gradle          : "gradle.bat",
+            task            : "compile",
+            maxTries        : "10",
+            rev             : "git rev-parse HEAD",
+            checkout        : "git checkout HEAD~1",
+            tryMessage      : "Проверка компиляции...",
+            failed          : "Компиляция не удалась, перехожу к предыдущему коммиту",
+            parents         : "git rev-list --parents -n 1 %s",
+            firstCommit     : "Достигнут первый коммит",
+            back            : "Откат на %s версий назад:",
+            cancel          : "git checkout %s",
+            cancelMessage   : "Откат в изначальное состояние",
+            completedMessage: "Найден рабочий коммит: %s",
+            createFile      : "Формируем файл diff между %s и %s",
+            diff            : "git diff %s..%s",
+            reportDir       : "report",
+            fileName        : "diff_report.txt",
+    ]
+
+    // Настройки для задачи env
+    env = [
+            description       : "Осуществляет сборку и запуск программы в альтернативных окружениях; " +
+                    "окружение задается версией java и набором аргументов виртуальной машины в файле параметров.",
+            props             : "enviroment.properties",
+            version           : "java.version",
+            defaultVersion    : "17",
+            args              : "jvm.args",
+            defaultArgs       : "",
+            useMessage        : "Используем Java %s и аргументы JVM: %s",
+            javaHome          : "C:/Program Files/Java/jdk-%s",
+            jdkNotFound       : "Не найден JAVA_HOME: %s",
+            libDir            : "libs",
+            war               : ".war",
+            warNotFound       : "WAR файл не найден: %s",
+            addDeployment     : "Копирование WAR файла в WildFly deployments...",
+            deployDir         : "C:/MyTests/wildfly-34.0.0.Final/standalone/deployments",
+            successAdd        : "WAR файл скопирован.",
+            wildflyBin        : "C:/MyTests/wildfly-34.0.0.Final/bin",
+            standalone        : "standalone.bat",
+            standaloneNotFound: "Стартовый скрипт WildFly не найден: %s",
+            startWildFly      : "Запуск WildFly...",
+            shell             : "powershell",
+            command           : "Start-Process",
+            argsTemplate      : "-FilePath '%s' -ArgumentList '-b 0.0.0.0' -WindowStyle Hidden",
+            scriptNotFound    : "Файл запуска WildFly не найден: %s",
+            successStart      : "WildFly запускается в фоне."
+    ]
+
+    // Настройки для задачи report
+    report = [
+            description     : "В случае успешного прохождения тестов сохраняет отчет junit в формате xml, " +
+                    "добавляет его в репозиторий git и выполняет commit.",
+            testDir         : "test-xml",
+            completedMessage: "Все тесты успешно пройдены. Отчёт JUnit XML сохранён в %s",
+            git             : "git",
+            add             : "add",
+            addError        : "Ошибка выполнения git add:\n%s",
+            commitOptions   : "-m",
+            commit          : "commit",
+            commitMessage   : "JUnit AutoCommit",
+            commitError     : "Ошибка выполнения git commit:\n%s",
+            success         : "Отчёт добавлен и закоммичен в репозиторий Git.",
+            failed          : "Некоторые тесты не прошли. Коммит не выполнен."
+
+    ]
+
+    // Настройки для задачи team
+    team = [
+            description     : "Осуществляет получение из git-репозитория 4 предыдущих ревизий, их сборку " +
+                    "(по аналогии с основной) и упаковку получившихся jar-файлов в zip-архив. " +
+                    "Сборку реализовать посредством вызова цели build.",
+            git             : "git",
+            checkout        : "checkout",
+            gradle          : "gradle.bat",
+            task            : "build",
+            rev             : "git rev-parse HEAD",
+            stepBack        : "git checkout HEAD~1",
+            currentCommit   : "Текущий коммит: %s",
+            zipDir          : "zip",
+            tryMessage      : "Попытка сборки на %s ревизии назад:",
+            failedBuild     : "Не удалось собрать проект на коммите %s",
+            libDir          : "libs",
+            war             : ".war",
+            fileMask        : "build_%d_%s.war",
+            saveMessage     : "WAR сохранён: %s",
+            warNotFound     : "WAR файл не найден после сборки на коммите %s",
+            failedBack      : "Не удалось перейти к предыдущему коммиту",
+            successReturn   : "Возврат на коммит %s завершён",
+            failedReturn    : "Не удалось вернуться на оригинальный коммит %s",
+            fileName        : "team_builds.zip",
+            completedMessage: "Архив создан: %s"
+    ]
+
+    // Настройки для задачи startFront
+    startFront = [
+            description     : "Запуск frontend части",
+            startMessage: "Запуск frontend части...",
+            front: "C:/Задания/Основы программной инженерии/Лабораторные/Лабораторная 3/Lab4/Front",
+            ng: "ng.cmd",
+            serve: "serve",
+            host: "0.0.0.0",
+            port: "4200",
+            fileName: ".ngserve.pid",
+            saveMessage: "PID процесса успешно записан в файле"
+    ]
+
+    // Настройки для задачи stopFront
+    stopFront = [
+            description     : "Остановка frontend части",
+            startMessage: "Остановка frontend части...",
+            front: "C:/Задания/Основы программной инженерии/Лабораторные/Лабораторная 3/Lab4/Front",
+            fileName: ".ngserve.pid",
+            completedMessage: "Успешная остановка frontend части",
+            errorMessage: "Ошибка при остановке frontend части:\n%s",
+            fileNotFound: "Файл с PID не найден. Возможно, процесс не запущен."
+    ]
+
+    // Настройки для задачи startBack
+    startBack = [
+            description     : "Запуск backend части",
+            startMessage: "Запуск backend части",
+            wildflyBin: "C:/MyTests/wildfly-34.0.0.Final/bin",
+            standalone: "standalone.bat",
+            shell: "powershell",
+            completedMessage: "WildFly запущен в фоновом режиме"
+    ]
+
+    // Настройки для задачи stopBack
+    stopBack = [
+            description     : "Остановка backend части",
+            startMessage: "Остановка backend части",
+            wildflyBin: "C:/MyTests/wildfly-34.0.0.Final/bin",
+            jbossCli: "jboss-cli.bat", 
+            completedMessage: "WildFly успешно остановлен"
+    ]
+
+    // Настройки для задачи functionalTest
+    functionalTest = [
+            description     : "Выполнение функциональных тестов",
+            startMessage: "Ожидание запуска backend и frontend...",
+            startBack: "Ожидание backend части...",
+            startFront: "Ожидание frontend части...",
+            waitTime: "120000",
+            timeout: "5000",
+            url: "http://localhost:9990",
+            frontURL: "http://localhost:4200",
+            successConnection: "Соединение установлено",
+            waitConnection: "Осталось ждать не более %d секунд",
+            npx: "npx.cmd",
+            cypress: "cypress",
+            run: "run",
+            front: "C:/Задания/Основы программной инженерии/Лабораторные/Лабораторная 3/Lab4/Front",
+            completedMessage: "Функциональные тесты прошли успешно",
+            errorMessage: "Функциональные тесты не прошли"
+    ]
+}
