@@ -1,0 +1,845 @@
+import javax.sound.sampled.AudioSystem
+import java.security.MessageDigest
+import javax.xml.parsers.DocumentBuilderFactory
+import org.xml.sax.SAXException
+import java.nio.file.Files
+import java.nio.file.Paths
+
+plugins {
+    id "java"
+    id "war"
+}
+
+group = "lab"
+version = "1.0.0"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "jakarta.platform:jakarta.jakartaee-web-api:10.0.0"
+    implementation "org.apache.commons:commons-lang3:3.12.0"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.9.0"
+    testImplementation "org.mockito:mockito-core:5.3.1"
+    testImplementation "org.glassfish.jersey.test-framework:jersey-test-framework-core:3.1.0"
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+apply from: new File(projectDir, "../gradle/config.gradle").absolutePath
+
+//Скомпилировать все классы
+tasks.register("compile") {
+    Map<String, String> config = project.compile
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn classes
+
+    doLast {
+        println config.completedMessage
+    }
+}
+
+//Переместить war на сервер
+tasks.register("scp", Exec) {
+    Map<String, String> config = project.scp
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn build
+
+    doFirst {
+        def libsDir = layout.buildDirectory.dir(config.libDir).get().asFile
+        def warFile = libsDir.listFiles().find {
+            it.name.startsWith(project.name) && it.name.endsWith(config.war)
+        }
+        if (!warFile) {
+            throw new GradleException(config.warNotFound)
+        }
+
+        commandLine config.scp, "-P", config.port, warFile.absolutePath, "${config.host}:${config.path}"
+    }
+
+    doLast {
+        println config.completedMessage
+    }
+}
+
+// Хеш-функция
+static def calculateHash(File file, String algorithm) {
+    MessageDigest digest = MessageDigest.getInstance(algorithm)
+    file.eachByte(1024) { buffer, bytesRead ->
+        digest.update(buffer, 0, bytesRead)
+    }
+    return digest.digest().encodeHex().toString()
+}
+
+// Расширяем WAR: добавляем Javadoc
+war {
+    dependsOn javadoc
+
+    from(javadoc.destinationDir) {
+        into "docs"
+    }
+
+    // Базовый манифест (хеши будут добавлены позже)
+    manifest {
+        attributes "Manifest-Version": "1.0"
+    }
+}
+
+// Генерация WAR с документацией и хешами
+tasks.register("doc") {
+    Map<String, String> config = project.doc
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn war
+
+    doLast {
+        def warFile = tasks.war.archiveFile.get().asFile
+
+        def md5 = calculateHash(warFile, config.mdAlgorithm)
+        def sha1 = calculateHash(warFile, config.shaAlgorithm)
+
+        def manifestText = String.format(config.manifestText, md5, sha1)
+
+        def buildDirFile = layout.buildDirectory.get().asFile
+        def manifestDir = new File(buildDirFile, config.manifestDir)
+        def manifestFile = new File(manifestDir, config.manifestName)
+
+        manifestDir.mkdirs()
+        manifestFile.text = manifestText
+
+        def warUnpackedDir = new File(buildDirFile, config.warUnpackedDir)
+        copy {
+            from zipTree(warFile)
+            into warUnpackedDir
+        }
+
+        copy {
+            from manifestFile
+            into new File(warUnpackedDir, config.metaInfDir)
+        }
+
+        ant.zip(destfile: warFile) {
+            fileset(dir: warUnpackedDir)
+        }
+
+        println config.completedMessage
+    }
+
+}
+
+//Валидация всех .xml файлов в проекте
+tasks.register("xml") {
+    Map<String, String> config = project.xml
+
+    group = project.taskGroup
+    description = config.description
+
+    doLast {
+        def xmlFiles = fileTree(projectDir) {
+            include config.mask
+        }
+
+        def factory = DocumentBuilderFactory.newInstance()
+        def parser = factory.newDocumentBuilder()
+        def failedFiles = []
+
+        for (File xmlFile : xmlFiles) {
+            try {
+                parser.parse(xmlFile)
+                println String.format(config.goodFileMessage, xmlFile.path)
+            } catch (SAXException | IOException e) {
+                println String.format(config.badFileMessage, xmlFile.path, e.message)
+                failedFiles.add(xmlFile)
+            }
+        }
+
+        if (!failedFiles.isEmpty()) {
+            def message = String.format(config.errorMessage, failedFiles.size())
+            for (File badFile : failedFiles) {
+                message += badFile.path + "\n"
+            }
+            throw new GradleException(message)
+        }
+
+        println config.completedMessage
+    }
+}
+
+//Производит звук при окончании build
+tasks.register("music") {
+    Map<String, String> config = project.music
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn build
+
+    doLast {
+        def soundFile = file(config.path)
+        def clip = AudioSystem.getClip()
+        def inputStream = AudioSystem.getAudioInputStream(soundFile)
+        clip.open(inputStream)
+        clip.start()
+    }
+}
+
+// Преобразует кодировку файлов локализации
+tasks.register("native2ascii") {
+    Map<String, String> config = project.native2ascii
+
+    group = project.taskGroup
+    description = config.description
+
+    doLast {
+        def outputDir = layout.buildDirectory.dir(config.outputDir).get().asFile
+        outputDir.mkdirs()
+
+        def matchingFiles = fileTree(dir: config.sourceDir, includes: [config.fileMask]).files
+        def fileNames = matchingFiles.collect { "${it.name}" }
+
+        for (String fileName : fileNames) {
+            def inputFile = "${config.sourceDir}/${fileName}"
+
+            def process = new ProcessBuilder()
+                    .command(config.commandName, inputFile)
+                    .redirectErrorStream(true)
+                    .start()
+            process.waitFor()
+
+            if (process.exitValue() != 0) {
+                throw new GradleException(config.errorMessage)
+            }
+
+            def outputFile = new File(outputDir, fileName)
+            outputFile.text = process.text
+            println String.format(config.completedMessage, inputFile)
+        }
+    }
+}
+
+// Выполнение коммита, если не затронуты определенные файлы
+tasks.register("diff") {
+    Map<String, String> config = project.diff
+
+    group = project.taskGroup
+    description = config.description
+
+    def props = new Properties()
+    file(config.exludedProperties).withInputStream { stream ->
+        props.load(stream)
+    }
+
+    def excludedFiles = []
+    props.each { _, value ->
+        excludedFiles.add(value.trim())
+    }
+
+    doLast {
+        def diffArgs = config.diffOptions.trim().split("\\s+").toList()
+        def diffCommand = [config.git, config.diff] + diffArgs
+
+        def process = new ProcessBuilder(diffCommand)
+                .redirectErrorStream(true)
+                .start()
+        process.waitFor()
+
+        if (process.exitValue() != 0) {
+            throw new GradleException(config.diffError)
+        }
+
+        def changedFiles = process.inputStream.text.readLines().collect { it.trim() }
+
+        def filesToAdd = []
+
+        for (String name : changedFiles) {
+            if (excludedFiles.contains(name)) {
+                throw new GradleException(String.format(config.badFileMessage, name))
+            }
+            filesToAdd.add(name)
+        }
+
+        if (filesToAdd.isEmpty()) {
+            println config.noChanges
+            return
+        }
+
+        def addCommand = [config.git, config.add] + filesToAdd
+        def processAdd = new ProcessBuilder(addCommand)
+                .redirectErrorStream(true)
+                .start()
+        processAdd.waitFor()
+
+        if (processAdd.exitValue() != 0) {
+            throw new GradleException(config.addError)
+        }
+
+        def commitArgs = config.commitOptions.trim().split("\\s+").toList()
+        def commitCommand = [config.git, config.commit] + commitArgs + [config.commitMessage]
+
+        def processCommit = new ProcessBuilder(commitCommand)
+                .redirectErrorStream(true)
+                .start()
+        processCommit.waitFor()
+
+        if (processCommit.exitValue() != 0) {
+            throw new GradleException(config.commitError)
+        }
+
+        println String.format(config.completedMessage, filesToAdd.size())
+    }
+}
+
+//Создает war с переименованными классами и переменными
+tasks.register("alt") {
+    Map<String, String> config = project.alt
+
+    group = project.taskGroup
+    description = config.description
+
+    def replacements = new Properties()
+    file(config.replaceFile).withInputStream { stream ->
+        replacements.load(stream)
+    }
+
+    def altSrc = layout.buildDirectory.dir(config.src).get().asFile
+
+    doLast {
+        delete altSrc
+        copy {
+            from config.source
+            into altSrc
+        }
+
+        replacements.each { key, value ->
+            ant.replaceregexp(match: "\\b${key}\\b", replace: value, flags: "g") {
+                fileset(dir: altSrc, includes: config.mask)
+            }
+        }
+
+        //Переименование .java-файлов, если имя файла совпадает с ключом
+        fileTree(dir: altSrc, include: config.mask).files.each { file ->
+            def name = file.name
+            if (name.endsWith(config.java)) {
+                def className = name[0..-6] // без .java
+                def newName = replacements.getProperty(className)
+                if (newName) {
+                    def renamed = new File(file.parentFile, newName + config.java)
+                    file.renameTo(renamed)
+                }
+            }
+        }
+
+        //Компиляция
+        def altClasses = layout.buildDirectory.dir(config.classes).get().asFile
+        ant.mkdir(dir: altClasses)
+
+        ant.javac(srcdir: altSrc, destdir: altClasses, includeantruntime: false, fork: true, source: "17", target: "17") {
+            classpath {
+                pathelement(path: sourceSets.main.compileClasspath.asPath)
+            }
+        }
+
+        //WAR-архив
+        def altWar = layout.buildDirectory.file("${config.libs}/${config.altWarName}").get().asFile
+        ant.zip(destfile: altWar, basedir: altClasses)
+
+        println String.format(config.completedMessage, altWar)
+    }
+
+}
+
+//Откатываем коммиты, пока не удастся скомпилировать
+tasks.register("history") {
+    Map<String, String> config = project.history
+
+    group = project.taskGroup
+    description = config.description
+
+    doLast {
+        println config.tryMessage
+        def compileProcess = new ProcessBuilder()
+                .command(config.gradle, config.task)
+                .redirectErrorStream(true)
+                .start()
+
+        def exitCode = compileProcess.waitFor()
+
+        if (exitCode != 0) {
+            println config.failed
+            def originalCommit = config.rev.execute().text.trim()
+
+            def currentCommit = originalCommit
+            def prevCommit = originalCommit
+
+            for (int i = 1; i < config.maxTries.toInteger() + 1; i++) {
+                def parents = String.format(config.parents, currentCommit).execute().text.trim().split(" ")
+                if (parents.size() == 1) {
+                    println config.firstCommit
+                    return
+                }
+
+                println String.format(config.back, i)
+
+                def checkoutProcess = config.checkout.execute()
+                def checkoutExitCode = checkoutProcess.waitFor()
+                if (checkoutExitCode != 0) {
+                    println config.cancelMessage
+                    String.format(config.cancel, originalCommit).execute()
+                    return
+                }
+
+                currentCommit = config.rev.execute().text.trim()
+                compileProcess = new ProcessBuilder()
+                        .command(config.gradle, config.task)
+                        .redirectErrorStream(true)
+                        .start()
+
+                exitCode = compileProcess.waitFor()
+
+                if (exitCode == 0) {
+                    println String.format(config.completedMessage, currentCommit)
+                    println String.format(config.createFile, currentCommit, prevCommit)
+                    def diffProcess = String.format(config.diff, currentCommit, prevCommit).execute()
+                    def diffExitCode = diffProcess.waitFor()
+                    if (diffExitCode == 0) {
+                        def reportDir = layout.buildDirectory.dir(config.reportDir).get().asFile
+                        reportDir.mkdirs()
+                        def reportFile = new File(reportDir, config.fileName)
+                        reportFile.write(diffProcess.text)
+                    }
+                    return
+                } else {
+                    println config.failed
+                    prevCommit = currentCommit
+                }
+            }
+        }
+    }
+}
+
+//Запуск в другом окружении
+tasks.register("env") {
+    Map<String, String> config = project.env
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn build
+
+    doLast {
+        def props = new Properties()
+        file(config.props).withInputStream { props.load(it) }
+
+        def javaVersion = props.getProperty(config.version, config.defaultVersion)
+        def jvmArgs = props.getProperty(config.args, config.defaultArgs).split("\\s+")
+                .findAll { it }
+
+        println String.format(config.useMessage, javaVersion, jvmArgs)
+
+        def javaHome = String.format(config.javaHome, javaVersion)
+        if (!file(javaHome).exists()) {
+            throw new GradleException(String.format(config.jdkNotFound, javaHome))
+        }
+
+        def libsDir = layout.buildDirectory.dir(config.libDir).get().asFile
+        def warFile = libsDir.listFiles().find {
+            it.name.startsWith(project.name) && it.name.endsWith(config.war)
+        }
+        if (!warFile?.exists()) {
+            throw new GradleException(String.format(config.warNotFound, warFile))
+        }
+
+        println config.addDeployment
+
+        def wildflyDeployments = file(config.deployDir)
+        if (!wildflyDeployments.exists()) {
+            wildflyDeployments.mkdirs()
+        }
+
+        copy {
+            from warFile
+            into wildflyDeployments
+            rename { String fileName -> project.name + config.war }
+        }
+
+        println config.successAdd
+
+        def wildflyBin = config.wildflyBin
+        def startScript = new File(wildflyBin, config.standalone)
+
+        if (!startScript.exists()) {
+            throw new GradleException(String.format(config.standaloneNotFound, startScript))
+        }
+
+        println config.startWildFly
+
+        def jvmArgsStr = jvmArgs.join(" ")
+
+        def argsFormatted = String.format(config.argsTemplate, startScript.absolutePath)
+        def argsList = argsFormatted.split("\\s+") as List<String>
+
+        def pb = new ProcessBuilder([config.shell, "-Command", config.command] + argsList)
+                .directory(new File(config.wildflyBin))
+
+        pb.environment().put("JAVA_HOME", javaHome)
+        if (jvmArgsStr) {
+            pb.environment().put("JAVA_OPTS", jvmArgsStr)
+        }
+
+        pb.start()
+
+        println config.successStart
+    }
+}
+
+
+//Сделать коммит, если пройдены тесты
+tasks.register("report", Test) {
+    Map<String, String> config = project.report
+
+    group = project.taskGroup
+    description = config.description
+
+    useJUnitPlatform()
+
+    testClassesDirs = sourceSets.test.output.classesDirs
+    classpath = sourceSets.test.runtimeClasspath
+
+    reports {
+        junitXml.required = true
+        junitXml.outputLocation = layout.buildDirectory.dir(config.testDir).get().asFile
+        html.required = false
+    }
+
+    def testFailed = false
+
+    afterTest { desc, result ->
+        if (result.resultType.toString() == "FAILURE") {
+            testFailed = true
+        }
+    }
+
+    doLast {
+        def reportDir = reports.junitXml.outputLocation.get().asFile
+        def copyTargetDir = file("$rootDir/reports/test-xml")
+
+        if (!testFailed) {
+            copy {
+                from reportDir
+                into copyTargetDir
+            }
+
+            println String.format(config.completedMessage, copyTargetDir)
+
+            def addCommand = [config.git, config.add] + copyTargetDir.absolutePath
+            def processAdd = new ProcessBuilder(addCommand)
+                    .redirectErrorStream(true)
+                    .start()
+            processAdd.waitFor()
+
+            if (processAdd.exitValue() != 0) {
+                throw new GradleException(String.format(config.addError, processAdd.text))
+            }
+
+            def commitArgs = config.commitOptions.trim().split("\\s+").toList()
+            def commitCommand = [config.git, config.commit] + commitArgs + [config.commitMessage]
+
+            def processCommit = new ProcessBuilder(commitCommand)
+                    .redirectErrorStream(true)
+                    .start()
+            processCommit.waitFor()
+
+            if (processCommit.exitValue() != 0) {
+                throw new GradleException(String.format(config.commitError, processCommit.text))
+            }
+
+            println config.success
+        } else {
+            println config.failed
+        }
+    }
+}
+
+//Zip-архив из war 4 предыдущих коммитов
+tasks.register("team") {
+    Map<String, String> config = project.team
+
+    group = project.taskGroup
+    description = config.description
+
+    doLast {
+        def originalCommit = config.rev.execute().text.trim()
+        println String.format(config.currentCommit, originalCommit)
+
+        def zipDir = layout.buildDirectory.dir(config.zipDir).get().asFile
+        zipDir.mkdirs()
+
+        try {
+            for (int i = 1; i <= 4; i++) {
+                println String.format(config.tryMessage, i)
+
+                def backProcess = config.stepBack.execute()
+                if (backProcess.waitFor() == 0) {
+                    def currentCommit = config.rev.execute().text.trim()
+                    println String.format(config.currentCommit, currentCommit)
+
+                    def buildProcess = new ProcessBuilder()
+                            .command(config.gradle, config.task)
+                            .inheritIO()
+                            .start()
+
+                    def exitCode = buildProcess.waitFor()
+                    if (exitCode != 0) {
+                        throw new GradleException(String.format(config.failedBuild, currentCommit))
+                    }
+
+                    def warDir = layout.buildDirectory.dir(config.libDir).get().asFile
+                    warDir.mkdirs()
+                    def warFile = warDir.listFiles()?.find { it.name.endsWith(config.war) }
+
+                    if (warFile != null && warFile.exists()) {
+                        def destFile = new File(zipDir, String.format(config.fileMask, i, currentCommit.take(7)))
+                        warFile.bytes = warFile.bytes
+                        warFile.renameTo(destFile)
+                        println String.format(config.saveMessage, destFile.name)
+                    } else {
+                        throw new GradleException(String.format(config.warNotfound, currentCommit))
+                    }
+                } else {
+                    throw new GradleException(config.failedBack)
+                }
+            }
+        } finally {
+            def returnProcess = new ProcessBuilder()
+                    .command(config.git, config.checkout, originalCommit)
+                    .inheritIO()
+                    .start()
+
+            if (returnProcess.waitFor() != 0) {
+                println String.format(config.failedReturn, originalCommit)
+            } else {
+                println String.format(config.successReturn, originalCommit)
+            }
+        }
+
+        // Архивация
+        def zipFile = new File(zipDir, config.fileName)
+        ant.zip(destfile: zipFile) {
+            fileset(dir: zipDir) {
+                exclude(name: config.fileName) // не включаем сам себя
+            }
+        }
+        println String.format(config.completedMessage, zipFile)
+
+    }
+}
+
+//Запуск Frontend части
+tasks.register("startFront") {
+    Map<String, String> config = project.startFront
+
+    group = project.appGroup
+    description = config.description
+
+    dependsOn 'stopFront'
+
+    doLast {
+        println config.startMessage
+        def pidFile = Paths.get("${projectDir}/${config.fileName}")
+
+        def command = [
+                config.ng,
+                config.serve,
+                "--host", config.host,
+                "--port", config.port
+        ]
+
+        def frontDir = new File(config.front)
+
+        def process = new ProcessBuilder(command)
+                .directory(frontDir)
+                .inheritIO()
+                .start()
+
+        // Сохраняем PID процесса в файл (чтобы потом убить)
+        Files.write(pidFile, [process.pid().toString()].join("\n").getBytes())
+        println config.saveMessage
+    }
+}
+
+//Остановка Frontend части
+tasks.register("stopFront") {
+    Map<String, String> config = project.stopFront
+
+    group = project.appGroup
+    description = config.description
+
+    doLast {
+        println config.startMessage
+        def pidFile = Paths.get("${projectDir}/${config.fileName}")
+        if (Files.exists(pidFile)) {
+            def pid = Files.readAllLines(pidFile).get(0).trim()
+
+            // Убиваем весь процесс и его дерево потомков
+            def command = [
+                    "taskkill", "/F", "/T", "/PID", pid
+            ]
+
+            def process = new ProcessBuilder(command).start()
+            def exitCode = process.waitFor()
+
+            if (exitCode == 0) {
+                println config.completedMessage
+                Files.deleteIfExists(pidFile)
+            } else {
+                println String.format(config.errorMessage, process.text)
+            }
+        } else {
+            println config.fileNotFound
+        }
+    }
+}
+
+
+//Запуск WildFly сервера
+tasks.register("startBack") {
+    Map<String, String> config = project.startBack
+
+    group = project.appGroup
+    description = config.description
+
+    dependsOn 'stopBack'
+
+    doLast {
+        println config.startMessage
+        def wildflyBin = config.wildflyBin
+        def startScript = new File(wildflyBin, config.standalone)
+
+        def command = [
+                config.shell,
+                "-Command",
+                "Start-Process",
+                startScript.absolutePath,
+                "-WindowStyle",
+                "Hidden"
+        ]
+
+        new ProcessBuilder(command)
+                .directory(new File(wildflyBin))
+                .start()
+
+        println config.completedMessage
+    }
+}
+
+//Остановка WildFly сервера
+tasks.register("stopBack") {
+    Map<String, String> config = project.stopBack
+
+    group = project.appGroup
+    description = config.description
+
+    doLast {
+        println config.startMessage
+        def wildflyBin = config.wildflyBin
+        def cliScript = new File(wildflyBin, config.jbossCli)
+
+        def command = [
+                "cmd",
+                "/c",
+                cliScript.absolutePath,
+                "--connect",
+                "command=:shutdown"
+        ]
+
+        def process = new ProcessBuilder(command)
+                .directory(new File(wildflyBin))
+                .inheritIO()
+                .start()
+        def exitCode = process.waitFor()
+
+        if (exitCode == 0) {
+            println config.completedMessage
+        } else {
+            println process.text
+        }
+    }
+}
+
+//Проверка функциональных тестов
+tasks.register("functionalTest") {
+    Map<String, String> config = project.functionalTest
+
+    group = project.taskGroup
+    description = config.description
+
+    dependsOn 'startFront', 'env'
+
+    def waitForService = { String url, String name ->
+        def timeLeft = config.waitTime.toInteger()
+        def timeout = config.timeout.toInteger()
+
+        println name
+
+        while (timeLeft > 0) {
+            try {
+                def connection = (HttpURLConnection) new URL(url).openConnection()
+                connection.requestMethod = "GET"
+                connection.connectTimeout = timeout
+                connection.readTimeout = timeout
+
+                if (connection.responseCode == HttpURLConnection.HTTP_OK) {
+                    println config.successConnection
+                    return
+                }
+            } catch (Exception ignored) {
+                // Игнорируем, просто ждём
+            }
+
+            println String.format(config.waitConnection, (int) (timeLeft / 1000))
+            Thread.sleep(5000)
+            timeLeft -= 5000
+        }
+    }
+
+    doLast {
+        println config.startMessage
+
+        waitForService(config.frontURL, config.startFront)
+        waitForService(config.url, config.startBack)
+
+        def command = [config.npx, config.cypress, config.run]
+        def frontDir = new File(config.front)
+
+        def process = new ProcessBuilder(command)
+                .directory(frontDir)
+                .redirectErrorStream(true)
+                .start()
+
+        process.inputStream.withReader { reader ->
+            reader.eachLine { println it }
+        }
+
+        def exitCode = process.waitFor()
+
+        println exitCode == 0 ? config.completedMessage : config.errorMessage
+    }
+}
