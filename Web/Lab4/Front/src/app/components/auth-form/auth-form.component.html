@@ -14,7 +14,7 @@
                     id="password" [ngClass]="['input', currentMode]" type="password" placeholder="Введите пароль"></td>
         </tr>
         <tr>
-            <td colspan="2" id="button-cell" type="submit"><button [ngClass]="currentMode">Авторизоваться</button>
+            <td colspan="2" id="button-cell" type="submit"><button id="submit-button" [ngClass]="currentMode">Авторизоваться</button>
                 <div><app-error-message [message]="errorMessage" id="error-auth"></app-error-message></div>
             </td>
         </tr>

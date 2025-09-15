@@ -10,7 +10,7 @@ import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 
 
 export class AuthService {
-  private apiUrl = "http://localhost:8080/Back/api/auth";
+  private apiUrl = "http://localhost:8080/Lab4/api/auth";
 
   private errorSubject = new BehaviorSubject<string>('');
   errorMessage$ = this.errorSubject.asObservable();
@@ -26,32 +26,33 @@ export class AuthService {
     return sessionStorage.getItem("sessionId") !== null;
   }
 
-  
+
   login(user: { login: string, password: string }): void {
+    console.log("Попытка авторизации");
     this.http.post(`${this.apiUrl}/login`, user, { withCredentials: true }).subscribe({
       next: (response: any) => {
         if (response.sessionId) {
           sessionStorage.setItem("sessionId", response.sessionId);
           sessionStorage.setItem("userId", response.userId);
           this.isAuthenticatedSubject.next(true);
+          console.log('Успешная авторизация, перенаправление в /home');
           this.router.navigate(['/home']);
         }
       },
       error: (error: HttpErrorResponse) => {
+        console.error(error.message);
         if (error.status === 401) {
           this.errorSubject.next("Неверный логин или пароль");
-        } else if (error.status === 403) {
-          this.errorSubject.next("Пользователь уже авторизован на другом устройстве");
         } else {
           this.errorSubject.next("Ошибка авторизации");
         }
-        console.error(error.error);
       }
     });
   }
 
 
   logout(): void {
+    console.log("Попытка выхода из аккаунта");
     const sessionId = sessionStorage.getItem("sessionId");
 
     if (!sessionId) {
@@ -64,16 +65,19 @@ export class AuthService {
       withCredentials: true
     }).subscribe({
       next: () => {
-        sessionStorage.removeItem("sessionId");
-        sessionStorage.removeItem("userId");
-        this.isAuthenticatedSubject.next(false); // Обновляем состояние
-        this.router.navigate(['/login']);
+        console.log("Успешный выход");
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Ошибка выхода', error);
+        console.error(error.error);
         this.errorSubject.next("Ошибка выхода из системы");
       }
     });
+
+    sessionStorage.removeItem("sessionId");
+    sessionStorage.removeItem("userId");
+    this.isAuthenticatedSubject.next(false);
+    console.log("Перенаправление в /login");
+    this.router.navigate(['/login']);
   }
 
 

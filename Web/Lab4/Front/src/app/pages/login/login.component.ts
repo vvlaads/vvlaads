@@ -3,6 +3,7 @@ import { HeaderComponent } from "../../components/header/header.component";
 import { AuthFormComponent } from "../../components/auth-form/auth-form.component";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   currentMode = "desktop";
 
-  constructor(private breakpointObserver: BreakpointObserver) {
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {
     this.breakpointObserver.observe([
       '(max-width: 650px)',
       '(min-width: 651px) and (max-width: 1102px)',

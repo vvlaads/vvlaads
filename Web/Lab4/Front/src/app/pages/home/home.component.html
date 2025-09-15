@@ -22,7 +22,8 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']"
                             [(ngModel)]="point.x"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageX" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="x-error-message" [message]="errorMessageX"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr>
@@ -31,7 +32,8 @@
                         <app-input-text [title]="'Значение Y:'" [name]="'inputY'"
                             [placeholder]="'Введите число от -3 до 3'" [(ngModel)]="point.y"></app-input-text>
                     </p>
-                    <app-error-message [message]="errorMessageY" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="y-error-message" [message]="errorMessageY"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr>
@@ -41,12 +43,13 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']" [(ngModel)]="point.r"
                             (ngModelChange)="onRChange($event)"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageR" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="r-error-message" [message]="errorMessageR"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <br>
             <tr [ngClass]="currentMode">
-                <td id="td-for-button"><button [ngClass]="currentMode">Отправить</button></td>
+                <td id="td-for-button"><button id="submit-button" [ngClass]="currentMode">Отправить</button></td>
             </tr>
             <br>
             <tr>
@@ -74,7 +77,8 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']"
                             [(ngModel)]="point.x"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageX" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="x-error-message" [message]="errorMessageX"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr>
@@ -83,7 +87,8 @@
                         <app-input-text [title]="'Значение Y:'" [name]="'inputY'"
                             [placeholder]="'Введите число от -3 до 3'" [(ngModel)]="point.y"></app-input-text>
                     </p>
-                    <app-error-message [message]="errorMessageY" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="y-error-message" [message]="errorMessageY"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr>
@@ -93,12 +98,13 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']" [(ngModel)]="point.r"
                             (ngModelChange)="onRChange($event)"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageR" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="r-error-message" [message]="errorMessageR"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <br>
             <tr [ngClass]="currentMode">
-                <td id="td-for-button"><button [ngClass]="currentMode">Отправить</button></td>
+                <td id="td-for-button"><button id="submit-button" [ngClass]="currentMode">Отправить</button></td>
             </tr>
             <br>
             <tr>
@@ -109,7 +115,8 @@
 
         <table *ngSwitchCase="'desktop'">
             <tr>
-                <td id="td-for-exit-link" colspan="2" [ngClass]="currentMode"><app-exit-link id="exit-link"></app-exit-link></td>
+                <td id="td-for-exit-link" colspan="2" [ngClass]="currentMode"><app-exit-link
+                        id="exit-link"></app-exit-link></td>
             </tr>
             <tr>
                 <td>
@@ -118,7 +125,8 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']"
                             [(ngModel)]="point.x"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageX" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="x-error-message" [message]="errorMessageX"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
                 <td id="image" rowspan="3">
                     <app-image (pointClicked)="onPointClicked($event)"></app-image>
@@ -130,7 +138,8 @@
                         <app-input-text [title]="'Значение Y:'" [name]="'inputY'"
                             [placeholder]="'Введите число от -3 до 3'" [(ngModel)]="point.y"></app-input-text>
                     </p>
-                    <app-error-message [message]="errorMessageY" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="y-error-message" [message]="errorMessageY"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr>
@@ -140,11 +149,12 @@
                             [values]="['-2', '-1.5', '-1', '-0.5', '0', '0.5', '1', '1.5', '2']" [(ngModel)]="point.r"
                             (ngModelChange)="onRChange($event)"></app-input-radio>
                     </p>
-                    <app-error-message [message]="errorMessageR" [ngClass]="'error'"></app-error-message>
+                    <app-error-message id="r-error-message" [message]="errorMessageR"
+                        [ngClass]="'error'"></app-error-message>
                 </td>
             </tr>
             <tr [ngClass]="currentMode">
-                <td id="td-for-button"><button [ngClass]="currentMode">Отправить</button></td>
+                <td id="td-for-button"><button id="submit-button" [ngClass]="currentMode">Отправить</button></td>
             </tr>
             <br>
             <tr>

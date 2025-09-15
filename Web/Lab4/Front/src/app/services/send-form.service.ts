@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 
 
 export class SendFormService {
-  private apiUrl: string = "http://localhost:8080/Back/api/point";
+  private apiUrl: string = "http://localhost:8080/Lab4/api/point";
 
 
   constructor(private http: HttpClient) { }
