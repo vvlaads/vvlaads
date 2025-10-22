@@ -1,0 +1,1288 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/vvlaa/ontologies/2025/Family_Tree"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/vvlaa/ontologies/2025/Family_Tree">
+    <Prefix name="" IRI="http://www.semanticweb.org/vvlaa/ontologies/2025/Family_Tree/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="Family_Tree" IRI="http://www.semanticweb.org/vvlaa/ontologies/2025/Family_Tree#"/>
+    <Declaration>
+        <Class IRI="#Divorce"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Man"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Marriage"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Woman"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ex-husband"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#ex-wife"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasChild"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasParent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#husband"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#wife"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#birthYear"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#deathYear"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#divorceYear"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#fullName"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#marriageYear"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Alyona_Olegovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#divorce_2020"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1933"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1951"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1954"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1958"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1978"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_1979"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_2001"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_2007"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#marriage_2022"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Man"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Woman"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Divorce"/>
+        <Class IRI="#Marriage"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Alyona_Olegovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Man"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Woman"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Divorce"/>
+        <NamedIndividual IRI="#divorce_2020"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1933"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1951"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1954"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1958"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1978"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_1979"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_2001"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_2007"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Marriage"/>
+        <NamedIndividual IRI="#marriage_2022"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasChild"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#ex-husband"/>
+        <NamedIndividual IRI="#divorce_2020"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#ex-wife"/>
+        <NamedIndividual IRI="#divorce_2020"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1933"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1933"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1951"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1951"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1954"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1954"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1958"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1958"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1978"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1978"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_1979"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_1979"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_2001"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_2001"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_2007"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_2007"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#husband"/>
+        <NamedIndividual IRI="#marriage_2022"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#wife"/>
+        <NamedIndividual IRI="#marriage_2022"/>
+        <NamedIndividual IRI="#Silintseva_Alyona_Olegovna"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1940</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2018</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Deeva_Raisa_Vasilyevna"/>
+        <Literal>Деева Раиса Васильевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1955</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Gorskikh_Lyudmila_Egorovna"/>
+        <Literal>Горских Людмила Егоровна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1947</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Ivanova_Lyudmila_Vasilyevna"/>
+        <Literal>Иванова Людмила Васильевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1963</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Korableva_Valentina_Egorovna"/>
+        <Literal>Кораблева Валентина Егоровна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1951</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Maltsev_Anatoly_Vladimirovich"/>
+        <Literal>Мальцев Анатолий Владимирович</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1926</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1997</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Maltsev_Vladimir_Borisovich"/>
+        <Literal>Мальцев Владимир Борисович</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1931</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2022</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Maltseva_Zoya_Vasilyevna"/>
+        <Literal>Мальцева Зоя Васильевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1952</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Ogoshkova_Galina_Vladimirovna"/>
+        <Literal>Огошкова Галина Владимировна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1950</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Shchetinina_Svetlana_Vasilyevna"/>
+        <Literal>Щетинина Светлана Васильевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1984</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Alexey_Sergeevich"/>
+        <Literal>Силинцев Алексей Сергеевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1961</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2012</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Andrey_Vladimirovich"/>
+        <Literal>Силинцев Андрей Владимирович</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2021</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Danil_Vitalievich"/>
+        <Literal>Силинцев Данил Витальевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2011</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vitalievich"/>
+        <Literal>Силинцев Сергей Витальевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1958</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2014</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Sergey_Vladimirovich"/>
+        <Literal>Силинцев Сергей Владимирович</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1980</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Vitaly_Sergeevich"/>
+        <Literal>Силинцев Виталий Сергеевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1932</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2008</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Vladimir_Alekseevich"/>
+        <Literal>Силинцев Владимир Алексеевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2005</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintsev_Vladislav_Vitalievich"/>
+        <Literal>Силинцев Владислав Витальевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Alyona_Olegovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1988</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Alyona_Olegovna"/>
+        <Literal>Силинцева Алёна Олеговна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1937</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Ivanovna"/>
+        <Literal>Силинцева Анастасия Ивановна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1983</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Anastasia_Petrovna"/>
+        <Literal>Силинцева Анастасия Петровна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1979</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Maria_Yurievna"/>
+        <Literal>Силинцева Мария Юрьевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1957</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Nina_Vladimirovna"/>
+        <Literal>Силинцева Нина Владимировна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2010</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Silintseva_Sofya_Alekseevna"/>
+        <Literal>Силинцева Софья Алексеевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1945</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Tamendarova_Elena_Vasilyevna"/>
+        <Literal>Тамендарова Елена Васильевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1928</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1986</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Ustyugov_Egor_Matveevich"/>
+        <Literal>Устюгов Егор Матвеевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1933</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1979</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Ustyugova_Zoya_Akimovna"/>
+        <Literal>Устюгова Зоя Акимовна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1935</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2023</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaev_Gennady_Vasilyevich"/>
+        <Literal>Зачиняев Геннадий Васильевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1910</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1978</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaev_Vasily_Kuzmich"/>
+        <Literal>Зачиняев Василий Кузьмич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1953</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaev_Yuri_Vasilyevich"/>
+        <Literal>Зачиняев Юрий Васильевич</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1984</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaeva_Natalia_Yurievna"/>
+        <Literal>Зачиняева Наталья Юрьевна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1958</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Egorovna"/>
+        <Literal>Зачиняева Татьяна Егоровна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#birthYear"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1915</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#deathYear"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1984</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#fullName"/>
+        <NamedIndividual IRI="#Zachinyaeva_Tatiana_Kuzmovna"/>
+        <Literal>Зачиняева Татьяна Кузьмовна</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#divorceYear"/>
+        <NamedIndividual IRI="#divorce_2020"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2020</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1933"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1933</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1951"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1951</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1954"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1954</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1958"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1958</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1978"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1978</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_1979"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">1979</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_2001"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2001</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_2007"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2007</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#marriageYear"/>
+        <NamedIndividual IRI="#marriage_2022"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#integer">2022</Literal>
+    </DataPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasChild"/>
+        <ObjectProperty IRI="#hasParent"/>
+    </InverseObjectProperties>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ex-husband"/>
+        <Class IRI="#Divorce"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#ex-wife"/>
+        <Class IRI="#Divorce"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasChild"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#husband"/>
+        <Class IRI="#Marriage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#wife"/>
+        <Class IRI="#Marriage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ex-husband"/>
+        <Class IRI="#Man"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#ex-wife"/>
+        <Class IRI="#Woman"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasChild"/>
+        <Class IRI="#Person"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#husband"/>
+        <Class IRI="#Man"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#wife"/>
+        <Class IRI="#Woman"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#birthYear"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#deathYear"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#divorceYear"/>
+        <Class IRI="#Divorce"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#fullName"/>
+        <Class IRI="#Person"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#marriageYear"/>
+        <Class IRI="#Marriage"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#birthYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#deathYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#divorceYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#fullName"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#marriageYear"/>
+        <Datatype abbreviatedIRI="xsd:integer"/>
+    </DataPropertyRange>
+    <DisjointDataProperties>
+        <DataProperty IRI="#divorceYear"/>
+        <DataProperty IRI="#marriageYear"/>
+    </DisjointDataProperties>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Divorce</IRI>
+        <Literal>Развод</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Man</IRI>
+        <Literal>Мужчина</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Marriage</IRI>
+        <Literal>Брак</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Person</IRI>
+        <Literal>Человек</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Woman</IRI>
+        <Literal>Женщина</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#birthYear</IRI>
+        <Literal>Год рождения человека</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#deathYear</IRI>
+        <Literal>Год смерти человека</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#divorceYear</IRI>
+        <Literal>Год расторжения брака</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ex-husband</IRI>
+        <Literal>Бывший муж</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ex-wife</IRI>
+        <Literal>Бывшая жена</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#fullName</IRI>
+        <Literal>ФИО человека</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasChild</IRI>
+        <Literal>Человек имеет ребенка</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasParent</IRI>
+        <Literal>Человек имеет родителя</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#husband</IRI>
+        <Literal>Муж</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#marriageYear</IRI>
+        <Literal>Год вступления в брак</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#wife</IRI>
+        <Literal>Жена</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+
